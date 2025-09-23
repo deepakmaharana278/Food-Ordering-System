@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { FaUser, FaLock, FaSignInAlt } from 'react-icons/fa'
+import { FaUser, FaSignInAlt } from 'react-icons/fa'
+import { VscAccount } from "react-icons/vsc";
+import { TbLockPassword } from "react-icons/tb";
 import '../styles/admin.css'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -45,13 +47,13 @@ const AdminLogin = () => {
         <form onSubmit={handleLogin}>
             <div className="mb-3">
                 <label className="form-label">
-                    <FaUser icon-fix className="me-1"/> User Name</label>
+                    <VscAccount icon-fix className="me-1"/> User Name</label>
                 <input type="text" className="form-control" placeholder="Enter username" required onChange={(e)=>setUsername(e.target.value)} value={username}/>
             </div>
             
             <div className="mb-3">
                 <label className="form-label">
-                    <FaLock icon-fix className="me-1"/> User Name</label>
+                    <TbLockPassword icon-fix className="me-1"/> Password</label>
                 <input type="password" className="form-control" placeholder="Enter password" required onChange={(e)=>setPassword(e.target.value)} value={password}/>
             </div>
             

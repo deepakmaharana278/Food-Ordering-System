@@ -2,3 +2,15 @@
     position: relative;
     top: -3px;
 }
+.sidebar{
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.list-group-item:hover{
+    background-color: #1a1a1a !important;
+    color: yellow !important;
+}
