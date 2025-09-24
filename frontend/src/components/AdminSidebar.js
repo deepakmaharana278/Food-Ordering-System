@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaEdit, FaSearch, FaStreetView, FaThLarge, FaUsers } from 'react-icons/fa'
+import { FaChevronDown, FaChevronUp, FaEdit, FaFile, FaList, FaSearch, FaStreetView, FaThLarge, FaUsers } from 'react-icons/fa'
 
 const AdminSidebar = () => {
 
@@ -22,7 +22,7 @@ const AdminSidebar = () => {
       </div>
       
       <div className="list-group list-group-flush"> 
-        <Link className="list-group-item list-group-item-action bg-dark text-white">
+        <Link className="list-group-item list-group-item-action bg-dark text-white border-0">
           <FaThLarge/> Dashboard
         </Link>
       
@@ -33,54 +33,80 @@ const AdminSidebar = () => {
         </Link>
       </div>
       
-      <button onClick={()=>toggleMenu('category')} className="list-group-item list-group-item-action bg-dark text-white">
-        <FaEdit/> Food Category
+      <button onClick={()=>toggleMenu('category')} className="list-group-item list-group-item-action bg-dark text-white border-0">
+          <FaEdit /> Food Category {openMenus.category ? <FaChevronUp /> : <FaChevronDown />}
       </button>
 
         {openMenus.category && (
         <div className="ps-4">
-          <Link className="list-group-item list-group-item-action bg-dark text-white">
+          <Link className="list-group-item list-group-item-action bg-dark text-white border-0">
             Add Category
         </Link>
         
-        <Link className="list-group-item list-group-item-action  bg-dark text-white">
+        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
           Manage Category
         </Link>
       </div>
       )}
       
-      <button onClick={()=>toggleMenu('food')}  className="list-group-item list-group-item-action bg-dark text-white">
-        <FaEdit/> Food Item
+      <button onClick={()=>toggleMenu('food')}  className="list-group-item list-group-item-action bg-dark text-white border-0">
+        <FaEdit/> Food Menu {openMenus.food ? <FaChevronUp /> : <FaChevronDown />}
       </button>
 
         {openMenus.food && (
         <div className="ps-4">
-          <Link className="list-group-item list-group-item-action bg-dark text-white">
-            Add Food Item
+          <Link className="list-group-item list-group-item-action bg-dark text-white border-0">
+            Add Food
         </Link>
         
-        <Link className="list-group-item list-group-item-action  bg-dark text-white">
-          Manage Food Item
+        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+          Manage Food
         </Link>
         </div>
         )}
         
       
-      <button onClick={()=>toggleMenu('order')}  className="list-group-item list-group-item-action bg-dark text-white">
-        <FaEdit/> Food Orders
+      <button onClick={()=>toggleMenu('order')}  className="list-group-item list-group-item-action bg-dark text-white border-0">
+        <FaList/> Orders {openMenus.order ? <FaChevronUp /> : <FaChevronDown />}
       </button>
 
         {openMenus.order && (
         <div className="ps-4">
-          <Link className="list-group-item list-group-item-action bg-dark text-white">
-            New Orders
+          <Link className="list-group-item list-group-item-action bg-dark text-white border-0">
+            Not Confirmed
         </Link>
         
-        <Link className="list-group-item list-group-item-action  bg-dark text-white">
-          Confirm Order
+        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+          Confirmed
+        </Link>
+        
+        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+          Being Prepared
+        </Link>
+        
+        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+          Food Pickup
+        </Link>
+        
+        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+          Delivered
+        </Link>
+        
+        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+          Cancelled
+        </Link>
+        
+        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+          All Orders
         </Link>
         </div>
         )}
+        
+      <div className="list-group list-group-flush"> 
+        <Link className="list-group-item list-group-item-action bg-dark text-white">
+          <FaFile/> B/w Dates Reports
+        </Link>
+      </div>
         
       <div className="list-group list-group-flush"> 
         <Link className="list-group-item list-group-item-action bg-dark text-white">
