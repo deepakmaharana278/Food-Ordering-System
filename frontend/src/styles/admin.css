@@ -3,7 +3,7 @@
     top: -3px;
 }
 .sidebar{
-    width: 200px;
+    width: 250px;
     height: 100vh;
     position: fixed;
     top: 0;
@@ -13,4 +13,7 @@
 .list-group-item:hover{
     background-color: #1a1a1a !important;
     color: yellow !important;
+}
+#page-content-wrapper{
+    margin-left: 250px;
 }
