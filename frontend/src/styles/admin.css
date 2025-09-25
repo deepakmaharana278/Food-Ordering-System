@@ -14,6 +14,11 @@
     background-color: #1a1a1a !important;
     color: yellow !important;
 }
-#page-content-wrapper{
+#page-content-wrapper.with-sidebar{
     margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+#page-content-wrapper.full-width{
+    margin-left: 0px;
+    transition: margin-left 0.3s ease;
 }
