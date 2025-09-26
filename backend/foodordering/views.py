@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from .models import *
+from .serializers import *
 
 # Create your views here.
 
@@ -25,4 +26,10 @@ def add_category(request):
 
     Category.objects.create(category_name=category_name)
     return Response({"message":"Category has been created"},status=201)
+
+@api_view(['GET']) 
+def list_category(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories,many=True)
+    return Response(serializer.data)
 
