@@ -20,7 +20,7 @@ class Category(models.Model):
 
     # improve readable
     def __str__(self):
-        return {self.category_name}
+        return self.category_name
 
 
 class Food(models.Model):

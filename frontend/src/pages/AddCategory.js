@@ -20,7 +20,7 @@ const AddCategory = () => {
       if (response.status === 201) {
         toast.success(data.message);
       } else {
-        toast.error(data.message);
+        toast.error("Something went wrong");
       }
     } catch (error) {
       console.error(error);
@@ -30,7 +30,7 @@ const AddCategory = () => {
 
   return (
     <AdminLayout>
-      <ToastContainer position="top-right" autoClose={2000} />
+      <ToastContainer position="top-center" autoClose={2000} />
       <div className="row">
         <div className="col-md-8">
           <div className="shadow-sm p-4 rounded">
