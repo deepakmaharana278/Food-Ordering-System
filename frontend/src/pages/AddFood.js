@@ -1,0 +1,128 @@
+import React, { useEffect, useState } from "react";
+import AdminLayout from "../components/AdminLayout";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const AddFood = () => {
+    const [categories, setCategories] = useState([])
+    const [formData, setFormData] = useState({
+        category: '',
+        item_name : '',
+        item_price : '',
+        item_description : '',
+        image : null,
+        item_quantity :''
+    })
+
+    
+    useEffect(() => {
+        fetch("http://127.0.0.1:8000/api/manage-category/")
+          .then((res) => res.json())
+          .then((data) => {
+            setCategories(data);
+          });
+      }, []);
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormData((prev) => ({
+            ...prev,
+            [name]:value
+        }));
+    }
+    const handleFileChange = (e) => {
+
+        setFormData((prev) => ({
+            ...prev,
+            image:e.target.files[0]
+        }));
+    }
+    
+  
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/add-food/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 201) {
+        toast.success(data.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error Connecting to server");
+    }
+  };
+
+  return (
+    <AdminLayout>
+      <ToastContainer position="top-center" autoClose={2000} />
+      <div className="row">
+        <div className="col-md-8">
+          <div className="shadow-sm p-4 rounded">
+            <h4 className="mb-4">
+              <i className="fas fa-plus-circle text-dark me-2"></i>Add Food Item
+            </h4>
+            <form onSubmit={handleSubmit} encType="multipart/formdata">
+              <div className="mb-3">
+                <label className="form-label">Food Category</label>
+                {/* select category */}
+                <select name="category" id="" className="form-select" onChange={handleChange}>
+                    <option value={formData.category}>Select Category</option>
+                    
+                    {categories.map((cat)=>(
+                        <option key={cat.id} value={cat.id}>{cat.category_name}</option>
+                    ))}
+                </select>
+              </div>
+            {/* food item name */}
+              <div className="mb-3">
+                <label className="form-label">Food Item Name</label>
+                <input name="item_name" type="text" className="form-control" placeholder="Enter Food Item Name" required value={formData.item_name} onChange={handleChange}/>
+              </div>
+            {/* Description */}
+              <div className="mb-3">
+                <label className="form-label">Description</label>
+                <textarea name="item_description" className="form-control" placeholder="Enter Description" required value={formData.item_description} onChange={handleChange}></textarea>
+              </div>
+            {/* Quantity */}
+              <div className="mb-3">
+                <label className="form-label">Quantity</label>
+                <input name="item_quantity" type="text" className="form-control" placeholder="e.g. 2 pcs / Large" required value={formData.item_quantity} onChange={handleChange}/>
+              </div>
+            {/* Price */}
+              <div className="mb-3">
+                <label className="form-label">Price(₹)</label>
+                <input name="item_price" type="number" className="form-control" required step=".01" onChange={handleChange} value={formData.item_price}/>
+              </div>
+            {/* Image */}
+              <div className="mb-3">
+                <label className="form-label"></label>
+                <input name="image" type="file" className="form-control" accept="image/*" required  onChange={handleFileChange}/>
+              </div>
+              
+              <button type="submit" className="btn btn-primary w-100 mt-3">
+                <i className="fas fa-plus me-2"></i>Add Food Item
+              </button>
+            </form>
+          </div>
+        </div>
+        <div className="col-md-4 d-flex justify-content-center align-items-center">
+          <i className="fas fa-pizza-slice" style={{ fontSize: "180px", color: "#e5e5e5" }}></i>
+        </div>
+      </div>
+    </AdminLayout>
+  );
+};
+
+export default AddFood;
