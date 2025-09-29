@@ -1,11 +1,16 @@
-import React from 'react'
+import React from "react";
+import PublicLayout from "../components/PublicLayout";
 
 const Home = () => {
   return (
-    <div>
-        Home Page - Food Ordering System Deepak
-    </div>
-  )
-}
+    <PublicLayout>
+      <section className="py-5" style={{backgroundImage:"url('')"}}>
+        <div>
+          home
+        </div>
+      </section>
+    </PublicLayout>
+  );
+};
 
-export default Home
+export default Home;

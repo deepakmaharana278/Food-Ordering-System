@@ -1,0 +1,30 @@
+.navbar-brand,.nav-link{
+    display: inline-flex;
+    align-items: center;
+}
+
+.navbar-brand:hover{
+    color: #ffc107 !important;
+    transform: translateY(-2px);
+    transition: color 0.3s ease,transform 0.3s ease;
+}
+
+.navbar-brand:hover svg{
+    animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+    0%{transform: rotate(0deg);}
+    25%{transform: rotate(-5deg);}
+    50%{transform: rotate(5deg);}
+    75%{transform: rotate(-3deg);}
+    100%{transform: rotate(0deg);}
+}
+
+.nav-link:hover{
+    background-color: #ffc107 !important;
+    border-radius: 0.25rem;
+    color: #000;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
