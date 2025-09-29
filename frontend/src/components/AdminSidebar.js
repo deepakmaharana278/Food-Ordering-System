@@ -59,7 +59,7 @@ const AdminSidebar = () => {
             Add Food
         </Link>
         
-        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+        <Link to="/manage-food" className="list-group-item list-group-item-action  bg-dark text-white border-0">
           Manage Food
         </Link>
         </div>
