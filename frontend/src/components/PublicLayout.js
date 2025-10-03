@@ -42,7 +42,7 @@ const PublicLayout = ({ children }) => {
                 </Link>
               </li>
               <li className="nav-item mx-1">
-                <Link className="nav-link">
+                <Link to='/admin-login' className="nav-link">
                   <FaUserShield className="me-1" /> Admin
                 </Link>
               </li>
