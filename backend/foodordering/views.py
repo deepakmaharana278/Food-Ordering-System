@@ -52,3 +52,10 @@ def list_foods(request):
     foods = Food.objects.all()
     serializer = foodSerializer(foods,many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def foods_search(request):
+    query = request.GET.get('q','')
+    foods = Food.objects.filter(item_name__icontains=query) #__icontains -> check substring
+    serializer = foodSerializer(foods,many=True)
+    return Response(serializer.data)

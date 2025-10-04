@@ -17,7 +17,7 @@ const PublicLayout = ({ children }) => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item mx-1">
-                <Link className="nav-link">
+                <Link to="/" className="nav-link">
                   <FaHome className="me-1" /> Home
                 </Link>
               </li>

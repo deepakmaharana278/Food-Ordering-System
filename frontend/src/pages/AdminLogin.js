@@ -5,6 +5,7 @@ import { TbLockPassword } from "react-icons/tb";
 import '../styles/admin.css'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import PublicLayout from "../components/PublicLayout";
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
@@ -34,9 +35,10 @@ const AdminLogin = () => {
 
 
   return (
+    <PublicLayout>
     <div className="d-flex justify-content-center align-items-center vh-100" 
     style={{
-      backgroundImage:"url('/images/adminbg.avif')",
+      backgroundImage:"url('/images/adminbg.jpg')",
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
       backgroundPosition: "center"
@@ -62,7 +64,8 @@ const AdminLogin = () => {
         </form>
       </div>
       <ToastContainer position="top-right" autoClose={2000} />
-    </div>
+      </div>
+      </PublicLayout>
   );
 };
 

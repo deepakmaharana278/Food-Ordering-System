@@ -19,3 +19,13 @@
     justify-content: center;
   }
 }
+
+input::placeholder{
+  font-style: italic;
+}
+
+.hovereffect:hover{
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transition: 0.3s ease-in-out;
+}
