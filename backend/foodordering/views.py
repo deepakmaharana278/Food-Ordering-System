@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .models import *
 from .serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser
+import random
 
 # Create your views here.
 # Admin Login
@@ -53,9 +54,19 @@ def list_foods(request):
     serializer = foodSerializer(foods,many=True)
     return Response(serializer.data)
 
+#Search page
 @api_view(['GET'])
 def foods_search(request):
     query = request.GET.get('q','')
     foods = Food.objects.filter(item_name__icontains=query) #__icontains -> check substring
     serializer = foodSerializer(foods,many=True)
+    return Response(serializer.data)
+
+#Home page product
+@api_view(['GET']) 
+def random_foods(request):
+    foods = list(Food.objects.all())
+    random.shuffle(foods)
+    limited_foods = foods[0:9]
+    serializer = foodSerializer(limited_foods,many=True)
     return Response(serializer.data)
