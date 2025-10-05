@@ -24,15 +24,56 @@ const Register = () => {
         }));
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        const { first_name, last_name, email, mobile, password, repeat_password } = formData
+
+        if (password !== repeat_password) {
+            toast.error('Password and confirm password do not match');
+            return;
+        }
+
+        try {
+          const response = await fetch("http://127.0.0.1:8000/api/register/", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ first_name, last_name, email, mobile, password, repeat_password }),
+          });
+    
+          const result = await response.json();
+    
+          if (response.status === 201) {
+            toast.success(result.message);
+            setFormData({
+                first_name: '',
+                last_name: '',
+                email: '',
+                mobile: '',
+                password: '',
+                repeat_password: ''
+            })
+          } else {
+            toast.error(result.message);
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error("Error Connecting to server");
+        }
+      };
+
+
   return (
     <PublicLayout>
+    <ToastContainer position="top-center" autoClose={2000} />
+        
       <div className="container py-5">
         <div className="row shadow-lg rounded-5 text-primary">
           <div className="col-md-6 p-4">
             <h3 className="text-center mb-4">
               <i className="fas fa-user-plus me-2"></i>User Registration
             </h3>
-            <form action="">
+            <form onSubmit={handleSubmit}>
                 {/* First Name */}
               <div className="mb-3">
                 <input name="first_name" type="text" className="form-control" placeholder="First Name" required value={formData.first_name} onChange={handleChange} />

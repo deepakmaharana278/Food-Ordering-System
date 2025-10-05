@@ -6,6 +6,7 @@ from .models import *
 from .serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser
 import random
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 # Admin Login
@@ -70,3 +71,17 @@ def random_foods(request):
     limited_foods = foods[0:9]
     serializer = foodSerializer(limited_foods,many=True)
     return Response(serializer.data)
+
+# Register user
+@api_view(['POST'])
+
+def register(request):
+    first_name = request.data.get('first_name')
+    last_name = request.data.get('last_name')
+    email = request.data.get('email')
+    mobile = request.data.get('mobile')
+    password = request.data.get('password')
+    if User.objects.filter(email=email).exists() or User.objects.filter(mobile=mobile).exists():
+        return Response({"message":"Email or Mobile already registered"},status=400)
+    User.objects.create(first_name=first_name,last_name=last_name,email=email,mobile=mobile,password = make_password(password))
+    return Response({"message":"User Registered Successfully"},status=201)
