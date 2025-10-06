@@ -1,11 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { FaHome, FaSignInAlt, FaTruck, FaUserPlus, FaUserShield, FaUtensils, FaUtensilSpoon } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import '../styles/layout.css'
+import { FaCogs, FaHeart, FaHome,  FaShoppingCart, FaSignInAlt, FaSignOutAlt, FaTruck, FaUser, FaUserCircle, FaUserEdit, FaUserPlus, FaUserShield, FaUtensils, FaUtensilSpoon } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/layout.css";
 
 const PublicLayout = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
+  const name = localStorage.getItem("userName");
 
-  
+  useEffect(() => {
+    if (userId) {
+      setIsLoggedIn(true);
+      setUserName(name);
+    }
+  }, [userId]);
+
+  // logout
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
 
   return (
     <div>
@@ -34,27 +52,72 @@ const PublicLayout = ({ children }) => {
                   <FaTruck className="me-1" /> Track
                 </Link>
               </li>
-              <li className="nav-item mx-1">
-                <Link to='/register' className="nav-link">
-                  <FaUserPlus className="me-1" /> Register
-                </Link>
-              </li>
-              <li className="nav-item mx-1">
-                <Link to='/login' className="nav-link">
-                  <FaSignInAlt className="me-1" /> Login
-                </Link>
-              </li>
-              <li className="nav-item mx-1">
-                <Link to='/admin-login' className="nav-link">
-                  <FaUserShield className="me-1" /> Admin
-                </Link>
-              </li>
+              {!isLoggedIn ? (
+                <>
+                  <li className="nav-item mx-1">
+                    <Link to="/register" className="nav-link">
+                      <FaUserPlus className="me-1" /> Register
+                    </Link>
+                  </li>
+                  <li className="nav-item mx-1">
+                    <Link to="/login" className="nav-link">
+                      <FaSignInAlt className="me-1" /> Login
+                    </Link>
+                  </li>
+                  <li className="nav-item mx-1">
+                    <Link to="/admin-login" className="nav-link">
+                      <FaUserShield className="me-1" /> Admin
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <Link to="" className="nav-link">
+                    <FaUser className="me-1" />
+                    My Orders
+                  </Link>
+                  <Link to="" className="nav-link">
+                    <FaShoppingCart className="me-1" />
+                    Cart
+                  </Link>
+                  <Link to="" className="nav-link">
+                    <FaHeart className="me-1" />
+                    Wishlist
+                  </Link>
+
+                  <li class="nav-item dropdown">
+                    <Link class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                     <FaUserCircle className="me-1"/> {userName}
+                    </Link>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li>
+                        <Link class="dropdown-item" to="">
+                         <FaUserEdit className="me-1"/> Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link class="dropdown-item" to="">
+                         <FaCogs className="me-1"/> Setting
+                        </Link>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider" />
+                      </li>
+                      <li>
+                        <button class="dropdown-item" onClick={handleLogout}>
+                          <FaSignOutAlt/> Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>
       </nav>
-      
-          <div>{children}</div>
+
+      <div>{children}</div>
 
       <footer className="text-center py-3 mt-5">
         <div className="container">
