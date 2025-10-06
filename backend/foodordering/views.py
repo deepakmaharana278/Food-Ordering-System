@@ -7,6 +7,8 @@ from .serializers import *
 from rest_framework.parsers import MultiPartParser, FormParser
 import random
 from django.contrib.auth.hashers import make_password
+from django.db.models import Q
+from django.contrib.auth.hashers import check_password
 
 # Create your views here.
 # Admin Login
@@ -74,7 +76,6 @@ def random_foods(request):
 
 # Register user
 @api_view(['POST'])
-
 def register(request):
     first_name = request.data.get('first_name')
     last_name = request.data.get('last_name')
@@ -85,3 +86,19 @@ def register(request):
         return Response({"message":"Email or Mobile already registered"},status=400)
     User.objects.create(first_name=first_name,last_name=last_name,email=email,mobile=mobile,password = make_password(password))
     return Response({"message":"User Registered Successfully"},status=201)
+
+# User Login
+@api_view(['POST'])
+def login(request):
+    emailcont = request.data.get('emailcont')
+    password = request.data.get('password')
+
+    try:
+        user = User.objects.get(Q(email=emailcont) | Q(mobile=emailcont))
+        if check_password(password,user.password):
+            return Response({"message":"Login successful","userId":user.id,"userName":f'{user.first_name} {user.last_name}'},status=200)
+        else:
+            return Response({"message":"Invalid Creadential"},status=401)
+    except:
+        return Response({"message":"User not found"},status=404)
+    

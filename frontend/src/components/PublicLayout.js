@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaHome, FaSignInAlt, FaTruck, FaUserPlus, FaUserShield, FaUtensils, FaUtensilSpoon } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import '../styles/layout.css'
 
 const PublicLayout = ({ children }) => {
+
+  
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
