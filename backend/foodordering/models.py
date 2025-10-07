@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-
+# User model
 class User(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -14,6 +14,7 @@ class User(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
     
+# Category model
 class Category(models.Model):
     category_name = models.CharField(max_length=50)
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -22,7 +23,7 @@ class Category(models.Model):
     def __str__(self):
         return self.category_name
 
-
+# Food model
 class Food(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     item_name = models.CharField(max_length=50)
@@ -35,3 +36,15 @@ class Food(models.Model):
     # improve readable
     def __str__(self):
         return f"{self.item_name} ({self.item_quantity})"
+
+# Order model
+class Order(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    food = models.ForeignKey(Food,on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    is_order_placed = models.BooleanField(default=False)
+    order_number = models.CharField(max_length=100,null=True)
+
+    # improve readable
+    def __str__(self):
+        return f"{self.order_number} ({self.user})"
