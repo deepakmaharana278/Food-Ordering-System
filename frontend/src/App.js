@@ -10,6 +10,7 @@ import ManageFood from './pages/ManageFood'
 import SearchPage from './pages/SearchPage'
 import Register from './components/Register'
 import Login from './components/Login'
+import FoodDetail from './pages/FoodDetail'
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path='/search' element={<SearchPage/>} />
         <Route path='/register' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
+        <Route path='/food/:id' element={<FoodDetail/>} />
       </Routes>
     </BrowserRouter>
   )

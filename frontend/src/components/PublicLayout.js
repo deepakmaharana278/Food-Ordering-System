@@ -85,26 +85,26 @@ const PublicLayout = ({ children }) => {
                     Wishlist
                   </Link>
 
-                  <li class="nav-item dropdown">
-                    <Link class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <li className="nav-item dropdown">
+                    <Link className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                      <FaUserCircle className="me-1"/> {userName}
                     </Link>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li>
-                        <Link class="dropdown-item" to="">
+                        <Link className="dropdown-item" to="">
                          <FaUserEdit className="me-1"/> Profile
                         </Link>
                       </li>
                       <li>
-                        <Link class="dropdown-item" to="">
+                        <Link className="dropdown-item" to="">
                          <FaCogs className="me-1"/> Setting
                         </Link>
                       </li>
                       <li>
-                        <hr class="dropdown-divider" />
+                        <hr className="dropdown-divider" />
                       </li>
                       <li>
-                        <button class="dropdown-item" onClick={handleLogout}>
+                        <button className="dropdown-item" onClick={handleLogout}>
                           <FaSignOutAlt/> Logout
                         </button>
                       </li>

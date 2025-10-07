@@ -9,6 +9,7 @@ import random
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from django.contrib.auth.hashers import check_password
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 # Admin Login
@@ -102,3 +103,11 @@ def login(request):
     except:
         return Response({"message":"User not found"},status=404)
     
+
+# Food Detail
+@api_view(['GET']) 
+def food_detail(request,id):
+    # food = Food.objects.get(id=id)
+    food = get_object_or_404(Food,id=id)
+    serializer = foodSerializer(food)
+    return Response(serializer.data)
