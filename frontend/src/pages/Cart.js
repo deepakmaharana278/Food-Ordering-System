@@ -52,6 +52,33 @@ const Cart = () => {
       console.error(error);
       toast.error("Error Connecting to server");
     }
+    };
+    // Remove Item
+    const deleteCartItem = async (orderId) => {
+        const confirmDelete = window.confirm("Are you sure you want to remove this item?");
+        if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/cart/delete_item/${orderId}/`, {
+        method: "DELETE"
+      });
+
+    
+
+      if (response.status === 200) {
+        const updated = await fetch(`http://127.0.0.1:8000/api/cart/${userId}`)
+        const data = await updated.json();
+        setCartItem(data);
+        const total = data.reduce((sum, item) => sum + item.food.item_price * item.quantity, 0);
+        setGrandTotal(total);
+          
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error Connecting to server");
+    }
   };
 
   return (
@@ -88,7 +115,7 @@ const Cart = () => {
                               <FaPlus />
                             </button>
                           </div>
-                          <button className="btn btn-sm btn-outline-danger">
+                          <button className="btn btn-sm btn-outline-danger" onClick={() => deleteCartItem(item.id)}>
                             <FaTrash className="me-2" />
                             Remove
                           </button>

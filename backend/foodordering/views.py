@@ -157,3 +157,15 @@ def update_cart_quantity(request):
         return Response({"message":"Quantity updated successfull"},status=200)
     except:
         return Response({"message":"Something went wrong"},status=404)
+    
+# Delete Cart Item
+@api_view(['DELETE'])
+def delete_cart_item(request,order_id):
+    try:
+        order = Order.objects.get(id=order_id,is_order_placed=False)
+        order.delete()
+
+        return Response({"message":"Item Deleted successfull"},status=200)
+    except:
+        return Response({"message":"Something went wrong"},status=404)
+    
