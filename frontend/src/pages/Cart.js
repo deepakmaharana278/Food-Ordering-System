@@ -24,6 +24,36 @@ const Cart = () => {
       });
   }, [userId]);
 
+  const updateQuantity = async (orderId, newQty) => {
+    if (newQty < 1) return;
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/cart/update-quantity/", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            orderId: orderId,
+            quantity:newQty
+        }),
+      });
+
+    
+
+      if (response.status === 200) {
+        const updated = await fetch(`http://127.0.0.1:8000/api/cart/${userId}`)
+        const data = await updated.json();
+        setCartItem(data);
+        const total = data.reduce((sum, item) => sum + item.food.item_price * item.quantity, 0);
+        setGrandTotal(total);
+          
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error Connecting to server");
+    }
+  };
+
   return (
     <PublicLayout>
       <ToastContainer position="top-center" autoClose={2000} />
@@ -38,7 +68,7 @@ const Cart = () => {
           <>
             <div className="row">
               {cartItem.map((item) => (
-                <div className="col-md-6 mb-4">
+                <div key={item.id} className="col-md-6 mb-4">
                   <div className="card shadow-sm">
                     <div className="row">
                       <div className="col-md-4">
@@ -50,11 +80,11 @@ const Cart = () => {
                           <p className="card-text text-muted small">{item.food.item_description}</p>
                           <p className="fw-bold text-success small">₹ {item.food.item_price}</p>
                           <div className="d-flex align-item-center mb-2">
-                            <button className="btn btn-sm btn-outline-secondary me-2" disabled={item.quantity <= 1}>
+                            <button className="btn btn-sm btn-outline-secondary me-2" disabled={item.quantity <= 1} onClick={() => updateQuantity(item.id, item.quantity - 1)}>
                               <FaMinus />
                             </button>
                             <span className="fw-bold px-2">{item.quantity}</span>
-                            <button className="btn btn-sm btn-outline-secondary ms-2">
+                            <button className="btn btn-sm btn-outline-secondary ms-2" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
                               <FaPlus />
                             </button>
                           </div>
@@ -68,6 +98,15 @@ const Cart = () => {
                   </div>
                 </div>
               ))}
+            </div>
+
+            <div className="card p-4 mt-4 shadow border-0">
+              <h4 className="text-end">Total : ₹ {grandTotal.toFixed(2)}</h4>
+              <div className="text-end">
+                <button className="btn btn-primary mt-3 px-4">
+                  <i className="fa fa-cart-shopping me-1"></i>Procced to Payment
+                </button>
+              </div>
             </div>
           </>
         )}
