@@ -11,6 +11,7 @@ import SearchPage from './pages/SearchPage'
 import Register from './components/Register'
 import Login from './components/Login'
 import FoodDetail from './pages/FoodDetail'
+import Cart from './pages/Cart'
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path='/register' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/food/:id' element={<FoodDetail/>} />
+        <Route path='/cart' element={<Cart/>} />
       </Routes>
     </BrowserRouter>
   )

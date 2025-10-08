@@ -125,8 +125,8 @@ def add_to_cart(request):
             user = user,
             food = food,
             is_order_placed = False,
-            quantity = 1,
-            # defaults = {'quantity':1}
+            # quantity = 1,
+            defaults = {'quantity':1}
         )
 
         if not created:
@@ -135,3 +135,10 @@ def add_to_cart(request):
             return Response({"message":"Food Added to cart successfull"},status=200)
     except:
         return Response({"message":"Something went wrong"},status=404)
+    
+# Cart page
+@api_view(['GET']) 
+def get_cart_item(request,user_id):
+    orders = Order.objects.filter(user_id=user_id,is_order_placed=False).select_related('food')
+    serializer = CartOrderSerializer(orders,many=True)
+    return Response(serializer.data)
