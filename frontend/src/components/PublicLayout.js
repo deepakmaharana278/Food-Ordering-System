@@ -89,7 +89,7 @@ const PublicLayout = ({ children }) => {
                     <Link className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                      <FaUserCircle className="me-1"/> {userName}
                     </Link>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li>
                         <Link className="dropdown-item" to="">
                          <FaUserEdit className="me-1"/> Profile

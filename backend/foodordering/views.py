@@ -121,20 +121,28 @@ def add_to_cart(request):
     try:
         user = User.objects.get(id=user_id)
         food = Food.objects.get(id=food_id)
-        order,created = Order.objects.get_or_create(
-            user = user,
-            food = food,
-            is_order_placed = False,
-            # quantity = 1,
-            defaults = {'quantity':1}
+
+        order, created = Order.objects.get_or_create(
+            user=user,
+            food=food,
+            is_order_placed=False,
+            defaults={'quantity': 1}
         )
 
         if not created:
             order.quantity += 1
             order.save()
-            return Response({"message":"Food Added to cart successfull"},status=200)
-    except:
-        return Response({"message":"Something went wrong"},status=404)
+
+        return Response({"message": "Food added to cart successfully"}, status=200)
+
+    except User.DoesNotExist:
+        return Response({"message": "User not found"}, status=404)
+    except Food.DoesNotExist:
+        return Response({"message": "Food not found"}, status=404)
+    except Exception as e:
+        print("Add to cart error:", e)  # logs error in console
+        return Response({"message": "Something went wrong"}, status=500)
+
     
 # Cart page
 @api_view(['GET']) 
