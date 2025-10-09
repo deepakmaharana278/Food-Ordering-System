@@ -130,7 +130,7 @@ const Cart = () => {
             <div className="card p-4 mt-4 shadow border-0">
               <h4 className="text-end">Total : ₹ {grandTotal.toFixed(2)}</h4>
               <div className="text-end">
-                <button className="btn btn-primary mt-3 px-4">
+                <button className="btn btn-primary mt-3 px-4" onClick={()=>navigate('/payment')}>
                   <i className="fa fa-cart-shopping me-1"></i>Procced to Payment
                 </button>
               </div>
