@@ -3,7 +3,7 @@ import PublicLayout from "../components/PublicLayout";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { FaMinus, FaPlus, FaShoppingCart, FaTrash } from "react-icons/fa";
+import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
 
 const Cart = () => {
   const userId = localStorage.getItem("userId");

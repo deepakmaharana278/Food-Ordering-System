@@ -220,3 +220,12 @@ def place_order(request):
 
     except:
         return Response({"message":"Something went wrong"},404)
+    
+
+    
+# My orders page
+@api_view(['GET']) 
+def user_orders(request,user_id):
+    orders = OrderAddress.objects.filter(user_id=user_id).order_by('-id')
+    serializer = MyOrdersListSerializer(orders,many=True)
+    return Response(serializer.data)

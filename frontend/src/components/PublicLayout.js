@@ -72,7 +72,7 @@ const PublicLayout = ({ children }) => {
                 </>
               ) : (
                 <>
-                  <Link to="" className="nav-link">
+                  <Link to="/my-orders" className="nav-link">
                     <FaUser className="me-1" />
                     My Orders
                   </Link>

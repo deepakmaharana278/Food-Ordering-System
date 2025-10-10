@@ -13,6 +13,7 @@ import Login from './components/Login'
 import FoodDetail from './pages/FoodDetail'
 import Cart from './pages/Cart'
 import PaymentPage from './pages/PaymentPage'
+import MyOrder from './pages/MyOrder'
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
         <Route path='/food/:id' element={<FoodDetail/>} />
         <Route path='/cart' element={<Cart/>} />
         <Route path='/payment' element={<PaymentPage/>} />
+        <Route path='/my-orders' element={<MyOrder/>} />
       </Routes>
     </BrowserRouter>
   )
