@@ -176,4 +176,47 @@ def delete_cart_item(request,order_id):
         return Response({"message":"Item Deleted successfull"},status=200)
     except:
         return Response({"message":"Something went wrong"},status=404)
-    
+
+# place order 
+def make_unique_order_number():
+    while True:
+        num = str(random.randint(100000000,999999999))
+        if not OrderAddress.objects.filter(order_number=num).exists():
+            return num 
+
+
+@api_view(['POST'])
+def place_order(request):
+    user_id = request.data.get('userId')
+    address = request.data.get('address')
+    payment_mode = request.data.get('paymentMode')
+    card_number = request.data.get('cardNumber')
+    expiry = request.data.get('expiry')
+    cvv = request.data.get('cvv')
+
+    try:
+        order = Order.objects.filter(user_id=user_id,is_order_placed=False)
+
+        order_number = make_unique_order_number()
+
+        order.update(order_number=order_number,is_order_placed=True)
+
+        OrderAddress.objects.create(
+            user_id = user_id,
+            order_number = order_number,
+            address = address
+        )
+
+        PaymentDetail.objects.create(
+            user_id = user_id,
+            order_number = order_number,
+            payment_mode = payment_mode,
+            card_number = card_number if payment_mode == "online" else None,
+            expiry_date = expiry if payment_mode == "online" else None,
+            cvv = cvv if payment_mode == "online" else None,
+        )
+
+        return Response({"message":f'Order Placed Successfully! Order No: {order_number}'},201)
+
+    except:
+        return Response({"message":"Something went wrong"},404)

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PublicLayout from "../components/PublicLayout";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,7 +23,7 @@ const PaymentPage = () => {
         toast.error("Please fill in all card details");
         return;
       }
-
+    }
       try {
         const response = await fetch("http://127.0.0.1:8000/api/place_order/", {
           method: "POST",
@@ -51,7 +51,6 @@ const PaymentPage = () => {
       } catch (error) {
         console.error(error);
         toast.error("Error Connecting to server");
-      }
     }
   };
 
@@ -110,7 +109,7 @@ const PaymentPage = () => {
               </div>
             </div>
           )}
-          <button className="btn btn-success mt-4 w-100">
+          <button className="btn btn-success mt-4 w-100" onClick={handlePlaceOrder}>
             <i className="fas fa-check-circle me-2"></i>
             Confirm & Place Order
           </button>
