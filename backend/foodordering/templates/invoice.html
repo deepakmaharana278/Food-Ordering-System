@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #{{order_number}}</title>
+    <style>
+        body{font-family :Arial,sans-sarif;padding: 20px;}
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th,td{
+            border:1px solid;
+            padding:10px;
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <h2>Invoice for Order #{{order_number}}</h2>
+    <p><strong>Date: </strong>{{address.order_time}}</p>
+    <p><strong>Address: </strong>{{address.address}}</p>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>Sl.no.</th>
+                <th>Food Item</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{order.food.item_name}}</td>
+                    <td>{{order.food.item_price}}</td>
+                    <td>{{order.quantity}}</td>
+                    <td>{{order.total_price}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="4">Grand Total</th>
+                <th>₹ {{grand_total}}</th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div style="margin-top: 30px">
+        <button onclick="window.print()">Print Invoice</button>
+    </div>
+</body>
+</html>

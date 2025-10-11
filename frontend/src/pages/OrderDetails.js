@@ -71,7 +71,7 @@ const OrderDetails = () => {
                 <p><strong>Status:</strong> {orderAddress.order_final_status || "Waiting for Resturant confirmation"}</p>
                 <p><strong>Status:</strong> <span className="badge bg-info text-dark ms-2">{orderAddress.payment_mode}</span></p>
                 <p><strong>Total:</strong> ₹ {total}</p>
-                <a href="" target="_blank" className="btn btn-primary w-100 my-2">
+                <a href={`http://127.0.0.1:8000/api/invoice/${order_number}`} target="_blank" className="btn btn-primary w-100 my-2">
                  <i className="fas fa-file-invoice me-1"></i> Invoice
                 </a>
                 <a href="" className="btn btn-danger w-100 my-2">

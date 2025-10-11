@@ -20,4 +20,5 @@ urlpatterns = [
     path('orders/<int:user_id>/',user_orders),
     path('orders/by_order_number/<str:order_number>/',order_by_order_number),
     path('order_address/<str:order_number>/',get_order_address),
+    path('invoice/<str:order_number>/',get_invoice),
 ]
