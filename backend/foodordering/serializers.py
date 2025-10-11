@@ -32,3 +32,10 @@ class MyOrdersListSerializer(serializers.ModelSerializer):
 
     def get_order_final_status(self,obj):
         return obj.order_final_status or "Waiting for Restaurant confirmation"
+    
+    
+class OrderSerializer(serializers.ModelSerializer):
+    food = foodSerializer()
+    class Meta:
+        model = Order
+        fields = ['quantity','food']

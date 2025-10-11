@@ -229,3 +229,10 @@ def user_orders(request,user_id):
     orders = OrderAddress.objects.filter(user_id=user_id).order_by('-id')
     serializer = MyOrdersListSerializer(orders,many=True)
     return Response(serializer.data)
+
+# order Detail page
+@api_view(['GET']) 
+def order_by_order_number(request,order_number):
+    orders = Order.objects.filter(order_number=order_number).select_related('food')
+    serializer = OrderSerializer(orders,many=True)
+    return Response(serializer.data)

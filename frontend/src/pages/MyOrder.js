@@ -5,7 +5,7 @@ import { FaBoxOpen, FaInfoCircle, FaMapMarkedAlt } from "react-icons/fa";
 
 const MyOrder = () => {
     const userId = localStorage.getItem('userId')
-    const [orders, setOrders] = useState();
+    const [orders, setOrders] = useState([]);
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -53,7 +53,7 @@ const MyOrder = () => {
                     <FaMapMarkedAlt /> Track
                   </Link>
 
-                  <Link className="btn btn-outline-primary btn-sm me-2">
+                  <Link to={`/order-details/${order.order_number}`} className="btn btn-outline-primary btn-sm me-2">
                     <FaInfoCircle /> View Details
                   </Link>
               </div>
