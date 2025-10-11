@@ -21,6 +21,15 @@ const OrderDetails = () => {
                 const totalAmount = data.reduce((sum, item) => sum + item.food.item_price * item.quantity, 0);
                 setTotal(totalAmount);
             });
+
+        fetch(`http://127.0.0.1:8000/api/order_address/${order_number}/`)
+            .then((res) => res.json())
+            .then((data) => {
+                setOrderAddress(data);
+            });
+      
+      
+      
         }, [order_number]);
 
   return (
@@ -50,7 +59,27 @@ const OrderDetails = () => {
          ))}
           
         </div>
-        <div className="col-md-4"></div>
+          <div className="col-md-4">
+            {orderAddress && (
+              <div className="card p-4 shadow-sm border-0">
+                <h5 className="fw-semibold mb-3">
+                  <i className="fas fa-map-marker-alt me-1 text-danger"></i>
+                  Delivery Details
+                </h5>
+                <p><strong>Date:</strong> {new Date(orderAddress.order_time).toLocaleString()}</p>
+                <p><strong>Address:</strong> {orderAddress.address}</p>
+                <p><strong>Status:</strong> {orderAddress.order_final_status || "Waiting for Resturant confirmation"}</p>
+                <p><strong>Status:</strong> <span className="badge bg-info text-dark ms-2">{orderAddress.payment_mode}</span></p>
+                <p><strong>Total:</strong> ₹ {total}</p>
+                <a href="" target="_blank" className="btn btn-primary w-100 my-2">
+                 <i className="fas fa-file-invoice me-1"></i> Invoice
+                </a>
+                <a href="" className="btn btn-danger w-100 my-2">
+                 <i className="fas fa-times-circle me-1"></i> Cancel Order
+                </a>
+              </div>
+            )}
+        </div>
        </div>
      </div>
     </PublicLayout>

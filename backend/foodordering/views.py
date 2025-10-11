@@ -233,6 +233,14 @@ def user_orders(request,user_id):
 # order Detail page
 @api_view(['GET']) 
 def order_by_order_number(request,order_number):
-    orders = Order.objects.filter(order_number=order_number).select_related('food')
+    orders = Order.objects.filter(order_number=order_number,is_order_placed=True).select_related('food')
     serializer = OrderSerializer(orders,many=True)
+    return Response(serializer.data)
+
+
+# Order Address 
+@api_view(['GET']) 
+def get_order_address(request,order_number):
+    address = OrderAddress.objects.get(order_number=order_number)
+    serializer = OrderAddressSerializer(address)
     return Response(serializer.data)
