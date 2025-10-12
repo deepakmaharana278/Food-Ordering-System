@@ -287,3 +287,19 @@ def update_user_profile(request,user_id):
         serializer.save()
         return Response({"message":'Profile Updated Successfully!'},status=200)
     return Response(serializer.errors,status=400)
+
+
+# Change Password  
+@api_view(['POST']) 
+def change_password(request,user_id):
+    current_password = request.data.get('current_password')
+    new_password = request.data.get('new_password')
+    user = User.objects.get(id=user_id)
+
+    if not check_password(current_password,user.password):
+        return Response({"message":'Current password is inncorect'},status=400)
+    
+
+    user.password = make_password(new_password)
+    user.save()
+    return Response({"message":'Password changed successfully!'},status=200)
