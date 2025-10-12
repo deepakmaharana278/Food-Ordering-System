@@ -24,4 +24,5 @@ urlpatterns = [
     path('user/<int:user_id>/',get_user_profile),
     path('user/update/<int:user_id>/',update_user_profile),
     path('change_password/<int:user_id>/',change_password),
+    path('orders_not_confirmed/',orders_not_confirmed),
 ]

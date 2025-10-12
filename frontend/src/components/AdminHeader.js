@@ -27,12 +27,12 @@ const AdminHeader = ({toggleSidebar,sidebarOpen}) => {
       <div className='collapse navbar-collapse'>
         <ul className='navbar-nav ms-auto align-items-center gap-2'>
           <li className='nav-item'>
-            <button className='btn btn-secondary'>
+            <button className='btn btn-outline-secondary'>
               <FaBell/>
             </button>
           </li>
           <li className='nav-item'>
-            <button onClick={handleLogout} className='btn btn-danger'>
+            <button onClick={handleLogout} className='btn btn-outline-danger'>
               <FaSignOutAlt className='me-1'/> Logout
             </button>
           </li>

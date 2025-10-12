@@ -17,6 +17,7 @@ import MyOrder from './pages/MyOrder'
 import OrderDetails from './pages/OrderDetails'
 import ProfilePage from './pages/ProfilePage'
 import ChangePassword from './pages/ChangePassword'
+import OrderNotConfirmed from './pages/OrderNotConfirmed'
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
         <Route path='/order-details/:order_number' element={<OrderDetails/>} />
         <Route path='/profile' element={<ProfilePage/>} />
         <Route path='/change-password' element={<ChangePassword/>} />
+        <Route path='/admin/not-confirmed' element={<OrderNotConfirmed/>} />
       </Routes>
     </BrowserRouter>
   )
