@@ -91,7 +91,7 @@ const PublicLayout = ({ children }) => {
                     </Link>
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li>
-                        <Link className="dropdown-item" to="">
+                        <Link to='/profile' className="dropdown-item">
                          <FaUserEdit className="me-1"/> Profile
                         </Link>
                       </li>

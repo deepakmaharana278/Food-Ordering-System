@@ -15,6 +15,7 @@ import Cart from './pages/Cart'
 import PaymentPage from './pages/PaymentPage'
 import MyOrder from './pages/MyOrder'
 import OrderDetails from './pages/OrderDetails'
+import ProfilePage from './pages/ProfilePage'
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
         <Route path='/payment' element={<PaymentPage/>} />
         <Route path='/my-orders' element={<MyOrder/>} />
         <Route path='/order-details/:order_number' element={<OrderDetails/>} />
+        <Route path='/profile' element={<ProfilePage/>} />
       </Routes>
     </BrowserRouter>
   )

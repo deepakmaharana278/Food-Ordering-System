@@ -54,3 +54,10 @@ class OrderAddressSerializer(serializers.ModelSerializer):
             return payment.payment_mode
         except PaymentDetail.DoesNotExist:  
             return None  
+        
+
+    
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','first_name','last_name','email','mobile','reg_date']

@@ -268,3 +268,22 @@ def get_invoice(request,order_number):
         'grand_total':grand_total,
         'orders':order_data
     })
+
+
+# Profile page 
+@api_view(['GET']) 
+def get_user_profile(request,user_id):
+    user = User.objects.get(id=user_id)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+
+
+# Profile update  
+@api_view(['PUT']) 
+def update_user_profile(request,user_id):
+    user = User.objects.get(id=user_id)
+    serializer = UserSerializer(user,data=request.data,partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message":'Profile Updated Successfully!'},status=200)
+    return Response(serializer.errors,status=400)
