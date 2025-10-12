@@ -18,6 +18,12 @@ import OrderDetails from './pages/OrderDetails'
 import ProfilePage from './pages/ProfilePage'
 import ChangePassword from './pages/ChangePassword'
 import OrderNotConfirmed from './pages/OrderNotConfirmed'
+import AllOrders from './pages/AllOrders'
+import OrderConfirmed from './pages/OrderConfirmed'
+import FoodBeingPrepared from './pages/FoodBeingPrepared'
+import FoodPickup from './pages/FoodPickup'
+import OrderDelivered from './pages/OrderDelivered'
+import OrderCancelled from './pages/OrderCancelled'
 
 const App = () => {
   return (
@@ -41,6 +47,12 @@ const App = () => {
         <Route path='/profile' element={<ProfilePage/>} />
         <Route path='/change-password' element={<ChangePassword/>} />
         <Route path='/admin/not-confirmed' element={<OrderNotConfirmed/>} />
+        <Route path='/admin/all-orders' element={<AllOrders/>} />
+        <Route path='/admin/order-confirmed' element={<OrderConfirmed/>} />
+        <Route path='/admin/food_being_prepared' element={<FoodBeingPrepared/>} />
+        <Route path='/admin/food-pickup' element={<FoodPickup/>} />
+        <Route path='/admin/order-delivered' element={<OrderDelivered/>} />
+        <Route path='/admin/order-cancelled' element={<OrderCancelled/>} />
       </Routes>
     </BrowserRouter>
   )

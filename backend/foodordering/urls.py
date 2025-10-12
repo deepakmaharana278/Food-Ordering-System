@@ -25,4 +25,10 @@ urlpatterns = [
     path('user/update/<int:user_id>/',update_user_profile),
     path('change_password/<int:user_id>/',change_password),
     path('orders_not_confirmed/',orders_not_confirmed),
+    path('orders_confirmed/',orders_confirmed),
+    path('food_being_prepared/',food_being_prepared),
+    path('food_pickup/',food_pickup),
+    path('orders_delivered/',food_delivered),
+    path('order_cancelled/',order_cancelled),
+    path('all_orders/',all_orders),
 ]

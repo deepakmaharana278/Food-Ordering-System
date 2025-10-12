@@ -76,27 +76,27 @@ const AdminSidebar = () => {
             Not Confirmed
         </Link>
         
-        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+        <Link to='/admin/order-confirmed' className="list-group-item list-group-item-action  bg-dark text-white border-0">
           Confirmed
         </Link>
         
-        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+        <Link to='/admin/food_being_prepared' className="list-group-item list-group-item-action  bg-dark text-white border-0">
           Being Prepared
         </Link>
         
-        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+        <Link to='/admin/food-pickup' className="list-group-item list-group-item-action  bg-dark text-white border-0">
           Food Pickup
         </Link>
         
-        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+        <Link to='/admin/order-delivered' className="list-group-item list-group-item-action  bg-dark text-white border-0">
           Delivered
         </Link>
         
-        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+        <Link to='/admin/order-cancelled' className="list-group-item list-group-item-action  bg-dark text-white border-0">
           Cancelled
         </Link>
         
-        <Link className="list-group-item list-group-item-action  bg-dark text-white border-0">
+        <Link to='/admin/all-orders' className="list-group-item list-group-item-action  bg-dark text-white border-0">
           All Orders
         </Link>
         </div>
