@@ -370,3 +370,22 @@ def order_between_dates(request):
     serializer = OrderSummarySerializer(orders.order_by('-order_time'),many=True)
 
     return Response(serializer.data)
+
+# View Detail of Order
+@api_view(['GET'])
+def view_order_detail(request,order_number):
+
+    try:
+        order_address = OrderAddress.objects.get(order_number=order_number).select_relted('user')
+        ordered_foods = Order.objects.filter(order_number=order_number).select_relted('food')
+        tracking = FoodTracking.objects.filter(order__order_number=order_number)
+    except:
+        return Response({'error':'Something went wrong'},status=404)
+    
+    return Response({
+        'order':OrderDetailSerializer(order_address),
+        'foods':OrderedFoodSerializer(ordered_foods,many=True),
+        'tracking':FoodTrackingSerializer(tracking,many=True),
+    })
+    
+
