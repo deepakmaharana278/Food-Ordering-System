@@ -376,16 +376,16 @@ def order_between_dates(request):
 def view_order_detail(request,order_number):
 
     try:
-        order_address = OrderAddress.objects.get(order_number=order_number).select_relted('user')
-        ordered_foods = Order.objects.filter(order_number=order_number).select_relted('food')
+        order_address = OrderAddress.objects.select_related('user').get(order_number=order_number)
+        ordered_foods = Order.objects.filter(order_number=order_number).select_related('food')
         tracking = FoodTracking.objects.filter(order__order_number=order_number)
     except:
         return Response({'error':'Something went wrong'},status=404)
     
     return Response({
-        'order':OrderDetailSerializer(order_address),
-        'foods':OrderedFoodSerializer(ordered_foods,many=True),
-        'tracking':FoodTrackingSerializer(tracking,many=True),
+        'order':OrderDetailSerializer(order_address).data,
+        'foods':OrderedFoodSerializer(ordered_foods,many=True).data,
+        'tracking':FoodTrackingSerializer(tracking,many=True).data,
     })
     
 

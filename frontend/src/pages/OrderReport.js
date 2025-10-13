@@ -18,12 +18,6 @@ const OrderReport = () => {
     if (!adminUser) {
       navigate("/login");
     }
-
-    fetch("http://127.0.0.1:8000/api/orders_delivered/")
-      .then((res) => res.json())
-      .then((data) => {
-        setOrders(data);
-      });
   }, []);
 
 
