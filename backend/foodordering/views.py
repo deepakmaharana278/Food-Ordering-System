@@ -353,3 +353,20 @@ def all_orders(request):
     orders = OrderAddress.objects.all().order_by('-order_time')
     serializer = OrderSummarySerializer(orders,many=True)
     return Response(serializer.data)
+
+# Between Date Orders
+@api_view(['POST'])
+def order_between_dates(request):
+    from_date = request.data.get('from_date')
+    to_date = request.data.get('to_date')
+    status = request.data.get('status')
+
+    orders = OrderAddress.objects.filter(order_time__date__range=[from_date,to_date])
+    if status == 'not_confirmed':
+        orders = orders.filter(order_final_status__isnull=True)
+    elif status != 'all':
+        orders = orders.filter(order_final_status=status)
+
+    serializer = OrderSummarySerializer(orders.order_by('-order_time'),many=True)
+
+    return Response(serializer.data)

@@ -84,16 +84,20 @@ const OrderReport = () => {
               <select name="status" onChange={handleChange} className="form-control mt-2">
                 <option value="all">All Orders</option>
                 <option value="not_confirmed">Not Confirmed</option>
-                <option value="confirmed">Order Confirmed</option>
-                <option value="food_being_prepared">Food Being Prepared</option>
-                <option value="">Food Pickup</option>
-                <option value="food_being_prepared">Order Delivered</option>
-                <option value="food_being_prepared">Order Cancelled</option>
+                <option value="Order Confirmed">Order Confirmed</option>
+                <option value="Food being Prepared">Food Being Prepared</option>
+                <option value="Food Pickup">Food Pickup</option>
+                <option value="Food Delivered">Order Delivered</option>
+                <option value="Food cancelled">Order Cancelled</option>
               </select>
             </div>
           </div>
+          <div className="text-center">
+            <button className="btn btn-primary" type="submit">Submit</button>
+          </div>
         </form>
 
+        {orders.length > 0 && (
         <table className="table table-bordered table-hover table-striped">
           <thead className="table-dark">
             <tr>
@@ -117,7 +121,8 @@ const OrderReport = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+          )}
       </div>
     </AdminLayout>
   );

@@ -31,4 +31,5 @@ urlpatterns = [
     path('orders_delivered/',food_delivered),
     path('order_cancelled/',order_cancelled),
     path('all_orders/',all_orders),
+    path('order-between-dates/',order_between_dates),
 ]
