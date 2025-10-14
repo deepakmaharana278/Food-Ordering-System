@@ -34,6 +34,18 @@ const ViewFoodOrder = () => {
 
   const { order, foods, tracking } = data;
 
+  const statusOptions = [
+    "Order Confirmed",
+    "Food being Prepared",
+    "Food Pickup",
+    "Food Delivered",
+    "Food cancelled"
+  ];
+
+  const currentStatus = order.order_final_status || "";
+
+  const visibleOptions = statusOptions.slice(statusOptions.indexOf(currentStatus)+1)
+
   return (
     <AdminLayout>
       <ToastContainer position="top-center" autoClose={2000} />
@@ -111,7 +123,7 @@ const ViewFoodOrder = () => {
             </tr>
             </thead>
             <tbody>
-            {tracking.length ==0 ? (
+            {tracking.length === 0 ? (
                 <tr>
                     <td colSpan='4' className="text-center">No Tracking History yet</td>
                 </tr>
@@ -126,6 +138,55 @@ const ViewFoodOrder = () => {
             )))}
             </tbody>
         </table>
+        
+        {order.order_final_status !== "Food Delivered" && (
+            <div className="my-4">
+                <h5>Update Order Status</h5>
+            <form onSubmit={(e) => {
+              e.preventDefault()
+              const status = e.target.status.value
+              const remark = e.target.remark.value
+
+              fetch("http://127.0.0.1:8000/api/update-order-status/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  order_number: order.order_number,
+                  status,
+                  remark
+                }),
+              })
+                .then((res) => res.json())
+                .then((res) => {
+                  if (res.message) {
+                    toast.success(res.message);
+                    setTimeout(() => window.location.reload(), 1000)
+                  } else {
+                    toast.error(res.error || "Failed to update status")
+                  }
+                })
+                .catch(() => toast.error("Server error"));
+            }}>
+              <div className="mb-3">
+                <label>Status</label>
+                <select name="status" className="form-control" required>
+                  {visibleOptions.map((status, index) => (
+                    <option key={index} value={status}>{status}</option>
+                  ))}
+                </select>
+              </div>  
+
+              <div className="mb-3">
+                <label>Remark</label>
+                <textarea name="remark" className="form-control" rows="3" required></textarea>
+              </div> 
+              
+              <div className="text-center">
+                <button className="btn btn-success" type='submit'>Update Status</button>
+              </div>
+            </form>
+          </div>
+        )}
         
       </div>
     </AdminLayout>
