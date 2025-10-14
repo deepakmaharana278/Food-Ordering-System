@@ -26,6 +26,7 @@ import OrderDelivered from './pages/OrderDelivered'
 import OrderCancelled from './pages/OrderCancelled'
 import OrderReport from './pages/OrderReport'
 import ViewFoodOrder from './pages/ViewFoodOrder'
+import SearchOrder from './pages/SearchOrder'
 
 const App = () => {
   return (
@@ -57,6 +58,7 @@ const App = () => {
         <Route path='/admin/order-cancelled' element={<OrderCancelled/>} />
         <Route path='/admin/order-report' element={<OrderReport/>} />
         <Route path='/admin-view-order-detail/:order_number' element={<ViewFoodOrder/>} />
+        <Route path='/admin-search-order' element={<SearchOrder/>} />
       </Routes>
     </BrowserRouter>
   )

@@ -408,3 +408,15 @@ def update_order_status(request):
         return Response({'message':'Order status updated successfully'})
     except OrderAddress.DoesNotExist:
         return Response({'error':'Invalid Order number'},status=400)
+
+
+# Search orders
+@api_view(['GET'])
+def search_orders(request):
+    query = request.GET.get('q','')
+    if query:
+        orders = OrderAddress.objects.filter(order_number__icontains=query).order_by('-order_time')
+    else:
+        orders = []
+    serializer = OrderSummarySerializer(orders,many=True)
+    return Response(serializer.data)
