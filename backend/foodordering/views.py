@@ -442,3 +442,16 @@ def category_detail(request,id):
         category.delete()
         return Response({'message':'Category Deleted successfully!'},200)
     
+
+
+# Manage food delete
+@api_view(['DELETE']) 
+def delete_food(request,id):
+    try:
+        food = Food.objects.get(id=id)
+        food.delete()
+        return Response({'message':'Food Deleted successfully!'},200)
+    except Food.DoesNotExist:
+        return Response({'error':'Food Not Found'},404)
+    
+    
