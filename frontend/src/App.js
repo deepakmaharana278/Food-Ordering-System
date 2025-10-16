@@ -27,6 +27,7 @@ import OrderCancelled from './pages/OrderCancelled'
 import OrderReport from './pages/OrderReport'
 import ViewFoodOrder from './pages/ViewFoodOrder'
 import SearchOrder from './pages/SearchOrder'
+import EditCategory from './pages/EditCategory'
 
 const App = () => {
   return (
@@ -59,6 +60,7 @@ const App = () => {
         <Route path='/admin/order-report' element={<OrderReport/>} />
         <Route path='/admin-view-order-detail/:order_number' element={<ViewFoodOrder/>} />
         <Route path='/admin-search-order' element={<SearchOrder/>} />
+        <Route path='/manage_category/edit-category/:id' element={<EditCategory/>} />
       </Routes>
     </BrowserRouter>
   )
