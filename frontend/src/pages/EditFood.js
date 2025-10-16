@@ -12,7 +12,8 @@ const EditFood = () => {
         item_price : '',
         item_description : '',
         image : '',
-        item_quantity :''
+        item_quantity: '',
+        is_available:''
     })
     const { id } = useParams();
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ const EditFood = () => {
         return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/edit-food/${ id }`)
+    fetch(`http://127.0.0.1:8000/api/edit-food/${ id }/`)
         .then((res) => res.json())
         .then((data) => setFormData(data))
         .catch(err => console.error(err))
@@ -63,9 +64,10 @@ const EditFood = () => {
         data.append("item_quantity", formData.item_quantity);
         data.append("item_price", formData.item_price);
         data.append("image", formData.image);
+        data.append("is_available", formData.is_available ? "true" : "false");
     
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/edit-food/${ id }`, {
+            const response = await fetch(`http://127.0.0.1:8000/api/edit-food/${ id }/`, {
                 method: "PUT",
                 body: data,
             });
@@ -96,8 +98,8 @@ const EditFood = () => {
               <div className="mb-3">
                 <label className="form-label">Food Category</label>
                 {/* select category */}
-                <select name="category" id="" className="form-select" onChange={handleChange}>
-                    <option value={formData.category}>Select Category</option>
+                <select name="category" id="" className="form-select" value={formData.category} onChange={handleChange}>
+                    <option>Select Category</option>
                     
                     {categories?.map((cat)=>(
                         <option key={cat.id} value={cat.id}>{cat.category_name}</option>
@@ -124,10 +126,26 @@ const EditFood = () => {
                 <label className="form-label">Price(₹)</label>
                 <input name="item_price" type="number" className="form-control" required step=".01" onChange={handleChange} value={formData.item_price}/>
               </div>
+            {/* Is Available */}
+              <div className="mb-3 form-check form-switch">
+                <input name="is_available" type="checkbox" className="form-check-input"  checked={formData.is_available} onChange={(e)=>setFormData({...formData,is_available:e.target.checked})} />
+                <label className="form-check-lable">
+                    {formData.is_available ? "Available" : "Not Available"}
+                </label>
+              </div>
             {/* Image */}
               <div className="mb-3">
-                <label className="form-label"></label>
-                <input name="image" type="file" className="form-control" accept="image/*" required  onChange={handleFileChange}/>
+                <label className="form-label">Image</label>
+                <div className="row">
+                    <div className="col-md-6">
+                        <input name="image" type="file" className="form-control" accept="image/*"   onChange={handleFileChange}/>
+                    </div>
+                    <div className="col-md-6">
+                        {formData.image && (
+                            <img src={`http://127.0.0.1:8000/${formData.image}`} className="img-fluid" style={{maxHeight:'100px',border:'1px solid',borderRadius:'8px',padding:'4px'}}/>
+                        )}
+                    </div>
+                </div>
               </div>
               
               <button type="submit" className="btn btn-primary w-100 mt-3">

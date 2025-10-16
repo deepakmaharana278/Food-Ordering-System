@@ -92,8 +92,8 @@ const AddFood = () => {
               <div className="mb-3">
                 <label className="form-label">Food Category</label>
                 {/* select category */}
-                <select name="category" id="" className="form-select" onChange={handleChange}>
-                    <option value={formData.category}>Select Category</option>
+                <select value={formData.category} name="category" id="" className="form-select" onChange={handleChange}>
+                    <option>Select Category</option>
                     
                     {categories.map((cat)=>(
                         <option key={cat.id} value={cat.id}>{cat.category_name}</option>
@@ -122,7 +122,7 @@ const AddFood = () => {
               </div>
             {/* Image */}
               <div className="mb-3">
-                <label className="form-label"></label>
+                <label className="form-label">Image</label>
                 <input name="image" type="file" className="form-control" accept="image/*" required  onChange={handleFileChange}/>
               </div>
               

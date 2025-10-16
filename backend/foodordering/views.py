@@ -437,14 +437,14 @@ def category_detail(request,id):
         serializer = CategorySerializer(category,data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'message':'Category updated successfully!'},200)
+        return Response({'message':'Category updated successfully!'},status=200)
     elif request.method == 'DELETE':
         category.delete()
-        return Response({'message':'Category Deleted successfully!'},200)
+        return Response({'message':'Category Deleted successfully!'},status=200)
     
 
 
-# Manage food delete
+# Manage food item delete
 @api_view(['DELETE']) 
 def delete_food(request,id):
     try:
@@ -452,6 +452,30 @@ def delete_food(request,id):
         food.delete()
         return Response({'message':'Food Deleted successfully!'},200)
     except Food.DoesNotExist:
-        return Response({'error':'Food Not Found'},404)
+        return Response({'error':'Food Not Found'},status=404)
     
     
+
+# Manage food item Edit 
+@api_view(['GET','PUT']) 
+@parser_classes([MultiPartParser,FormParser])
+def edit_food(request,id):
+    try:
+        food = Food.objects.get(id=id)
+    except Food.DoesNotExist:
+        return Response({'error':'Food Item Not Found'},status=404)
+    
+    if request.method == 'GET':
+        serializer = foodSerializer(food)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        data = request.data.copy()
+
+        if 'image' not in request.FILES:
+            data['image'] = food.image
+        if 'is_available' in data:
+            data['is_available'] = data['is_available'].lower() == 'true' #'true'/'false' == true --> True
+        serializer = foodSerializer(food,data=data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+        return Response({'message':'Food Item updated successfully!'},status=200)
