@@ -46,7 +46,7 @@ const ManageUser = () => {
         const handleDelete = (id) => {
     
             if (window.confirm("Are you sure you want to delete this user")) {
-              fetch(`http://127.0.0.1:8000/api/users-delete/${ id }/`, {
+              fetch(`http://127.0.0.1:8000/api/delete-user/${ id }/`, {
                 method:'DELETE'
               })
                 .then(res=>res.json())
@@ -69,7 +69,7 @@ const ManageUser = () => {
         </h3>
         <h5 className="text-end text-muted">
           <i className="fas fa-database me-2"></i>
-          Total Category
+          Total User
           <span className="ms-2 badge bg-success">{users.length}</span>
         </h5>
 

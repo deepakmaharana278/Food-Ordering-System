@@ -487,3 +487,14 @@ def list_users(request):
     user = User.objects.all().order_by('-id')
     serializer = UserSerializer(user,many=True)
     return Response(serializer.data)
+
+# Manage users delete
+@api_view(['DELETE']) 
+def delete_user(request,id):
+    try:
+        user = User.objects.get(id=id)
+        user.delete()
+        return Response({'message':'User Deleted successfully!'},200)
+    except User.DoesNotExist:
+        return Response({'error':'User Not Found'},status=404)
+  
