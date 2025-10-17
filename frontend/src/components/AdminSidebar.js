@@ -28,7 +28,7 @@ const AdminSidebar = () => {
       
       
       <div className="list-group list-group-flush"> 
-        <Link className="list-group-item list-group-item-action bg-dark text-white">
+        <Link to='/manage_user' className="list-group-item list-group-item-action bg-dark text-white">
           <FaUsers/> Reg Users
         </Link>
       </div>

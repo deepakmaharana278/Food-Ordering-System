@@ -479,3 +479,11 @@ def edit_food(request,id):
         if serializer.is_valid():
             serializer.save()
         return Response({'message':'Food Item updated successfully!'},status=200)
+
+
+# Manage Users
+@api_view(['GET']) 
+def list_users(request):
+    user = User.objects.all().order_by('-id')
+    serializer = UserSerializer(user,many=True)
+    return Response(serializer.data)
