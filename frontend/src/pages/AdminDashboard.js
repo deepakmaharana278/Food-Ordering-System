@@ -1,12 +1,68 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminLayout from '../components/AdminLayout'
+import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
+  const [matrics, setMetrices] = useState({
+    total_orders: 0,
+    new_orders: 0,
+    confirmed_orders: 0,
+    food_preparing: 0,
+    food_pickup: 0,
+    food_delivered: 0,
+    cancelled_orders: 0,
+    total_users: 0,
+    total_categories: 0,
+    today_sales: 0,
+    week_sales: 0,
+    month_sales: 0,
+    total_reviews: 0,
+    total_wishlists: 0,
+  })
+  const cardData = [
+    {title:'Total Orders',key:'total_orders',color:'primary',icon:'fas fa-shopping-cart'},
+    {title:'New Orders',key:'new_orders',color:'secondary',icon:'fas fa-cart-plus'},
+    {title:'Confirmed Orders',key:'confirmed_orders',color:'info',icon:'fas fa-check-circle'},
+    {title:'Food Being Prepared',key:'food_preparing',color:'warning',icon:'fas fa-utensils'},
+    {title:'Food Pickup',key:'food_pickup',color:'dark',icon:'fas fa-motorcycle'},
+    {title:'Food Delivered',key:'food_delivered',color:'success',icon:'fas fa-truck'},
+    {title:'Cancelled Orders',key:'cancelled_orders',color:'danger',icon:'fas fa-times-circle'},
+    {title:'Total Users',key:'total_users',color:'primary',icon:'fas fa-users'},
+    {title:"Today's Sales",key:'today_sales',color:'info',icon:'fas fa-coins'},
+    {title:"This Week's Sales",key:'week_sales',color:'dark',icon:'fas fa-calendar-alt'},
+  ]
+   const navigate = useNavigate();
+    const adminUser = localStorage.getItem("adminUser");
+
+  useEffect(() => {
+    if (!adminUser) {
+      navigate("/login");
+      return;
+    }
+    fetch("http://127.0.0.1:8000/api/dashboard-metrics/")
+          .then((res) => res.json())
+          .then((data) => {
+            setMetrices(data);
+            
+          });
+  }, [])
   return (
     
     <AdminLayout>
-      <div>
-        <h2 className='text-center'>Admin Dashboard</h2>
+      <div className='row g-3'>
+        {cardData.map((item,i)=>(
+        <div key={i} className='col-md-3'>
+          <div className={`card text-white bg-${item.color}`}>
+            <div className='card-body d-flex justify-content-between align-items-center'>
+              <div>
+                  <h5 className='card-title'>{item.title}</h5>
+                  <h5>{matrics[item.key]}</h5>
+              </div>
+              <i className={`${item.icon} fa-2x`}></i>
+            </div>
+          </div>
+          </div>
+          ))}
       </div>
       </AdminLayout>
     

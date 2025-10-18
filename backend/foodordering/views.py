@@ -498,3 +498,12 @@ def delete_user(request,id):
     except User.DoesNotExist:
         return Response({'error':'User Not Found'},status=404)
   
+
+  # Manage Users
+@api_view(['GET']) 
+def dashboard_metrics(request):
+    data ={
+        "total_orders":OrderAddress.objects.count(),
+        "new_orders":OrderAddress.objects.filter(order_final_status__isnull=True).count(),
+    }
+    return Response(data)
