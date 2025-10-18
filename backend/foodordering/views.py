@@ -499,11 +499,20 @@ def delete_user(request,id):
         return Response({'error':'User Not Found'},status=404)
   
 
-  # Manage Users
+# Admin dashboard 
 @api_view(['GET']) 
 def dashboard_metrics(request):
     data ={
         "total_orders":OrderAddress.objects.count(),
         "new_orders":OrderAddress.objects.filter(order_final_status__isnull=True).count(),
+        "confirmed_orders": OrderAddress.objects.filter(order_final_status="Order Confirmed").count(),
+        "food_prepared": OrderAddress.objects.filter(order_final_status="Food being Prepared").count(),
+        "food_pickup": OrderAddress.objects.filter(order_final_status="Food Pickup").count(),
+        "food_delivered": OrderAddress.objects.filter(order_final_status="Food Delivered").count(),
+        "cancelled_orders": OrderAddress.objects.filter(order_final_status="Food cancelled").count(),
+        "total_users": User.objects.count(),
+        "total_categories": Category.objects.count(),
+        "total_reviews": Review.objects.count(),
+        "total_wishlists": Wishlist.objects.count(),
     }
     return Response(data)
