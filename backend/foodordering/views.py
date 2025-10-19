@@ -10,6 +10,9 @@ from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import get_object_or_404
+from django.utils.timezone import now,timedelta,make_aware
+from django.db.models import Sum,F
+from datetime import datetime
 
 # Create your views here.
 # Admin Login
@@ -502,6 +505,39 @@ def delete_user(request,id):
 # Admin dashboard 
 @api_view(['GET']) 
 def dashboard_metrics(request):
+    today = now().date()
+    start_week = today - timedelta(days=today.weekday())
+    start_month = today.replace(day=1)
+    start_year = today.replace(month=1,day=1)
+
+    def get_sales_total(start_date):
+        # Convert date -> timezone-aware datetime (midnight)
+        start_datetime = make_aware(datetime.combine(start_date, datetime.min.time()))
+
+        # Get all paid orders from that date onward
+        paid_orders = PaymentDetail.objects.filter(payment_date__gte=start_datetime).values_list(
+            'order_number', flat=True
+        )
+
+        # Calculate total price from Order table
+        total = (
+            Order.objects.filter(order_number__in=paid_orders)
+            .annotate(total_price=F('quantity') * F('food__item_price'))
+            .aggregate(sale_amount=Sum('total_price'))
+        )['sale_amount'] or 0.0
+
+        return round(total, 2)
+
+
+    # def get_sales_total(start_date):
+    #     paid_orders = PaymentDetail.objects.filter(payment_date__gte=start_date).values_list('order_number',flat=True)
+
+    #     total = Order.objects.filter(order_number__in=paid_orders).annotate(
+    #         total_price =F('quantity') * F('food__item_price')
+    #     ).aggregate(sale_amount=Sum('total_price'))['sale_amount'] or 0.0
+
+    #     return round(total,2)
+
     data ={
         "total_orders":OrderAddress.objects.count(),
         "new_orders":OrderAddress.objects.filter(order_final_status__isnull=True).count(),
@@ -514,5 +550,9 @@ def dashboard_metrics(request):
         "total_categories": Category.objects.count(),
         "total_reviews": Review.objects.count(),
         "total_wishlists": Wishlist.objects.count(),
+        "today_sales": get_sales_total(today),
+        "week_sales": get_sales_total(start_week),
+        "month_sales": get_sales_total(start_month),
+        "year_sales": get_sales_total(start_year),
     }
     return Response(data)
