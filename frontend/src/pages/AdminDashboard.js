@@ -63,7 +63,7 @@ const AdminDashboard = () => {
             <div className='card-body d-flex justify-content-between align-items-center'>
               <div>
                   <h5 className='card-title'>{item.title}</h5>
-                  <h5>{matrics[item.key]}</h5>
+                  <h5>{(item.title.includes('Sales')) ? `₹ ${matrics[item.key]}` : matrics[item.key]}</h5>
               </div>
               <i className={`${item.icon} fa-2x`}></i>
             </div>

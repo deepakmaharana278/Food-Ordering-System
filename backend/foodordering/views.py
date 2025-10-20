@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import get_object_or_404
 from django.utils.timezone import now,timedelta,make_aware
-from django.db.models import Sum,F
+from django.db.models import Sum,F,DecimalField
 from datetime import datetime
 
 # Create your views here.
@@ -556,3 +556,31 @@ def dashboard_metrics(request):
         "year_sales": get_sales_total(start_year),
     }
     return Response(data)
+
+# Monthly sales summary
+from decimal import Decimal
+from collections import defaultdict
+from django.db.models.functions import TruncMonth,Coalesce
+
+@api_view(['GET']) 
+def monthly_sales_summary(request):
+    # step-1 total= Sum(quantity * price)
+    orders = Order.objects.filter(is_order_placed=True).annotate(total_price=Coalesce(Sum(F('quantity') * F('food__item_price'),output_field=DecimalField(max_digits=12,decimal_places=2)),Decimal(0.00)))
+
+    # step-2 
+    order_price_map = {
+        o['order_number']:o['total_price'] for o in orders
+    }
+
+    # step-3 month resolve
+    addresses = (OrderAddress.objects.filter(order_number__in=order_price_map.keys()).annotate(month=TruncMonth('order_time')).values('month','order_number'))
+
+    month_totals = defaultdict(lambda:Decimal('0.00'))
+
+    for addr in addresses:
+        label = addr['month'].strftime('%b')
+        month_totals[label] += order_price_map.get(addr['order_number'],Decimal('0.00'))
+
+    result = [{"month":m,"sales":total} for m,total in month_totals.items()]
+    return Response(result)
+    

@@ -41,4 +41,5 @@ urlpatterns = [
     path('manage-users/',list_users),
     path('delete-user/<int:id>/',delete_user),
     path('dashboard-metrics/',dashboard_metrics),
+    path('monthly-sales-summary/',monthly_sales_summary),
 ]
