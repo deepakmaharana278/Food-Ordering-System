@@ -560,7 +560,7 @@ def dashboard_metrics(request):
 # Monthly sales summary
 from decimal import Decimal
 from collections import defaultdict
-from django.db.models.functions import TruncMonth,Coalesce
+from django.db.models.functions import TruncMonth,Coalesce,TruncWeek
 
 @api_view(['GET']) 
 def monthly_sales_summary(request):
@@ -603,3 +603,30 @@ def top_selling_foods(request):
     )
    
    return Response(top_foods)
+
+# weekly sales summary
+@api_view(['GET']) 
+def weekly_sales_summary(request):
+    # step-1 total= Sum(quantity * price)
+    orders = (
+        Order.objects
+            .filter(is_order_placed=True)
+            .values('order_number')
+            .annotate(total_price=Coalesce(Sum(F('quantity') * F('food__item_price'),output_field=DecimalField(max_digits=12,decimal_places=2)),Decimal(0.00))))
+
+    # step-2 
+    order_price_map = {
+        o['order_number']:o['total_price'] for o in orders
+    }
+
+    # step-3 week resolve
+    addresses = (OrderAddress.objects.filter(order_number__in=order_price_map.keys()).annotate(week=TruncWeek('order_time')).values('week','order_number'))
+
+    week_totals = defaultdict(lambda:Decimal('0.00'))
+
+    for addr in addresses:
+        label = addr['week'].strftime('Week %W')
+        week_totals[label] += order_price_map.get(addr['order_number'],Decimal('0.00'))
+
+    result = [{"week":w,"sales":total} for w,total in week_totals.items()]
+    return Response(result)
