@@ -565,7 +565,7 @@ from django.db.models.functions import TruncMonth,Coalesce
 @api_view(['GET']) 
 def monthly_sales_summary(request):
     # step-1 total= Sum(quantity * price)
-    orders = Order.objects.filter(is_order_placed=True).annotate(total_price=Coalesce(Sum(F('quantity') * F('food__item_price'),output_field=DecimalField(max_digits=12,decimal_places=2)),Decimal(0.00)))
+    orders = Order.objects.filter(is_order_placed=True).annotate(total_price=Coalesce(Sum(F('quantity') * F('food__item_price'),output_field=DecimalField(max_digits=12,decimal_places=2)),Decimal(0.00))).values('order_number', 'total_price')
 
     # step-2 
     order_price_map = {
