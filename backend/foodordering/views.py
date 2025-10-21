@@ -565,7 +565,11 @@ from django.db.models.functions import TruncMonth,Coalesce
 @api_view(['GET']) 
 def monthly_sales_summary(request):
     # step-1 total= Sum(quantity * price)
-    orders = Order.objects.filter(is_order_placed=True).annotate(total_price=Coalesce(Sum(F('quantity') * F('food__item_price'),output_field=DecimalField(max_digits=12,decimal_places=2)),Decimal(0.00))).values('order_number', 'total_price')
+    orders = (
+        Order.objects
+            .filter(is_order_placed=True)
+            .values('order_number')
+            .annotate(total_price=Coalesce(Sum(F('quantity') * F('food__item_price'),output_field=DecimalField(max_digits=12,decimal_places=2)),Decimal(0.00))))
 
     # step-2 
     order_price_map = {
@@ -583,4 +587,19 @@ def monthly_sales_summary(request):
 
     result = [{"month":m,"sales":total} for m,total in month_totals.items()]
     return Response(result)
+
+
+# Top selling Food
+@api_view(['GET']) 
+def top_selling_foods(request):
     
+   top_foods = (
+        Order.objects
+            .filter(is_order_placed=True)
+            .values('food__item_name')
+            .annotate
+                (total_sold=Sum('quantity'))
+                .order_by('-total_sold')[:5]
+    )
+   
+   return Response(top_foods)

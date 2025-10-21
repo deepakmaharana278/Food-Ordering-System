@@ -21,7 +21,7 @@ const SalesBarChart = () => {
           <XAxis dataKey="month" />
           <YAxis />
           <Tooltip/>
-          <Bar dataKey="sales" fill="#00bfff"/>
+          <Bar dataKey="sales" fill="#0acfc2ff"/>
         </BarChart>
       </ResponsiveContainer>
     </div>

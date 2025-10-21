@@ -3,6 +3,7 @@ import AdminLayout from '../components/AdminLayout'
 import SalesBarChart from '../components/SalesBarChart';
 import { useNavigate } from 'react-router-dom';
 import '../styles/admin_dashboard.css'
+import TopProducts from './TopProducts';
 
 const AdminDashboard = () => {
   const [matrics, setMetrices] = useState({
@@ -85,7 +86,10 @@ const AdminDashboard = () => {
 
       <div className='row mt-4'>
         <div className='col-md-6'>
-          <SalesBarChart/>
+          <SalesBarChart />
+        </div>
+        <div className='col-md-6'>
+          <TopProducts/>
         </div>
       </div>
       </AdminLayout>
