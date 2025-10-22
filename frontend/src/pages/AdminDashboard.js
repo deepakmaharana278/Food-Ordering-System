@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/admin_dashboard.css'
 import TopProducts from './TopProducts';
 import WeeklySalesChart from '../components/WeeklySalesChart';
+import WeeklyUserChart from '../components/WeeklyUserChart';
 
 const AdminDashboard = () => {
   const [matrics, setMetrices] = useState({
@@ -96,6 +97,9 @@ const AdminDashboard = () => {
       <div className='row mt-4'>
         <div className='col-md-6'>
           <WeeklySalesChart/>
+        </div>
+        <div className='col-md-6'>
+          <WeeklyUserChart/>
         </div>
       </div>
       </AdminLayout>

@@ -44,4 +44,5 @@ urlpatterns = [
     path('monthly-sales-summary/',monthly_sales_summary),
     path('top-selling-foods/',top_selling_foods),
     path('weekly-sales-summary/',weekly_sales_summary),
+    path('weekly-user-registration/',weekly_user_registration),
 ]

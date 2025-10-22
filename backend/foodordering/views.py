@@ -630,3 +630,29 @@ def weekly_sales_summary(request):
 
     result = [{"week":w,"sales":total} for w,total in week_totals.items()]
     return Response(result)
+
+
+# Weekly user registration
+from django.db.models import Count
+
+@api_view(['GET']) 
+def weekly_user_registration(request):
+
+    data = (
+        User.objects
+        .annotate(week=TruncWeek('reg_date'))
+        .values('week')
+        .annotate(new_users = Count('id'))
+        .order_by('week')
+    )
+
+
+
+    result = [
+        {
+            "week":entry["week"].strftime('Week %W'),
+            "new_users":entry['new_users']
+        } for entry in data
+    ]
+    
+    return Response(result)
