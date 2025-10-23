@@ -4,12 +4,14 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
+import { useCart } from "../context/CartContext";
 
 const Cart = () => {
   const userId = localStorage.getItem("userId");
   const [cartItem, setCartItem] = useState([]);
   const [grandTotal, setGrandTotal] = useState(0);
   const navigate = useNavigate();
+  const {setCartCount} = useCart();
 
   useEffect(() => {
     if (!userId) {
@@ -44,6 +46,7 @@ const Cart = () => {
         setCartItem(data);
         const total = data.reduce((sum, item) => sum + item.food.item_price * item.quantity, 0);
         setGrandTotal(total);
+        setCartCount(data.length)
           
       } else {
         toast.error("Something went wrong");
@@ -71,6 +74,7 @@ const Cart = () => {
         setCartItem(data);
         const total = data.reduce((sum, item) => sum + item.food.item_price * item.quantity, 0);
         setGrandTotal(total);
+        setCartCount(data.length)
           
       } else {
         toast.error("Something went wrong");

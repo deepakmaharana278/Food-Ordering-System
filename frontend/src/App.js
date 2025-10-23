@@ -30,28 +30,22 @@ import SearchOrder from './pages/SearchOrder'
 import EditCategory from './pages/EditCategory'
 import EditFood from './pages/EditFood'
 import ManageUser from './pages/ManageUser'
+import { CartProvider } from './context/CartContext'
 
 const App = () => {
   return (
+    <CartProvider>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home/>} />
+        
+        {/* Admin page */}
         <Route path='/admin-login' element={<AdminLogin/>} />
         <Route path='/admin-dashboard' element={<AdminDashboard/>} />
         <Route path='/add-category' element={<AddCategory/>} />
         <Route path='/manage-category' element={<ManageCategory/>} />
         <Route path='/add-food' element={<AddFood/>} />
         <Route path='/manage-food' element={<ManageFood/>} />
-        <Route path='/search' element={<SearchPage/>} />
-        <Route path='/register' element={<Register/>} />
-        <Route path='/login' element={<Login/>} />
-        <Route path='/food/:id' element={<FoodDetail/>} />
-        <Route path='/cart' element={<Cart/>} />
-        <Route path='/payment' element={<PaymentPage/>} />
-        <Route path='/my-orders' element={<MyOrder/>} />
-        <Route path='/order-details/:order_number' element={<OrderDetails/>} />
-        <Route path='/profile' element={<ProfilePage/>} />
-        <Route path='/change-password' element={<ChangePassword/>} />
         <Route path='/admin/not-confirmed' element={<OrderNotConfirmed/>} />
         <Route path='/admin/all-orders' element={<AllOrders/>} />
         <Route path='/admin/order-confirmed' element={<OrderConfirmed/>} />
@@ -65,8 +59,21 @@ const App = () => {
         <Route path='/manage_category/edit-category/:id' element={<EditCategory/>} />
         <Route path='/manage_food/edit-food/:id' element={<EditFood/>} />
         <Route path='/manage_user' element={<ManageUser/>} />
+        
+        {/* User page */}
+        <Route path='/search' element={<SearchPage/>} />
+        <Route path='/register' element={<Register/>} />
+        <Route path='/login' element={<Login/>} />
+        <Route path='/food/:id' element={<FoodDetail/>} />
+        <Route path='/cart' element={<Cart/>} />
+        <Route path='/payment' element={<PaymentPage/>} />
+        <Route path='/my-orders' element={<MyOrder/>} />
+        <Route path='/order-details/:order_number' element={<OrderDetails/>} />
+        <Route path='/profile' element={<ProfilePage/>} />
+        <Route path='/change-password' element={<ChangePassword/>} />
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+      </CartProvider>
   )
 }
 
