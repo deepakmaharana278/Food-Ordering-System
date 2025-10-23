@@ -29,7 +29,7 @@ const AdminDashboard = () => {
     {title:'Total Orders',key:'total_orders',color:'primary',icon:'fas fa-shopping-cart'},
     {title:'New Orders',key:'new_orders',color:'secondary',icon:'fas fa-cart-plus'},
     {title:'Confirmed Orders',key:'confirmed_orders',color:'info',icon:'fas fa-check-circle'},
-    {title:'Food Being Prepared',key:'food_preparing',color:'warning',icon:'fas fa-utensils'},
+    {title:'Food Being Prepared',key:'food_prepared',color:'warning',icon:'fas fa-utensils'},
     {title:'Food Pickup',key:'food_pickup',color:'dark',icon:'fas fa-motorcycle'},
     {title:'Food Delivered',key:'food_delivered',color:'success',icon:'fas fa-truck'},
     {title:'Cancelled Orders',key:'cancelled_orders',color:'danger',icon:'fas fa-times-circle'},
@@ -76,7 +76,7 @@ const AdminDashboard = () => {
         ))}
         <div className='col-md-3'>
           <div className="card bg-lignt d-flex justify-content-between align-items-center">
-            <i className='fas fa-concierge-bell fa-2x text-danger mb-2'></i>
+            <i className='fas fa-concierge-bell fa-2x text-danger mb-2 mt-2'></i>
             <p className='fw-bold text-center'>Deepak<br />
               <span className='text-danger'>TasteRide</span>
             </p>
