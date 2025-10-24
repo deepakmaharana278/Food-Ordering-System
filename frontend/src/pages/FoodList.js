@@ -12,9 +12,9 @@ const FoodList = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(200);
+  const [maxPrice, setMaxPrice] = useState(500);
   const [currentPage, setCurrentPage] = useState(1);
-  const foodPerpage = 9;
+  const foodPerpage = 6;
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/foods/`)
@@ -44,13 +44,15 @@ const FoodList = () => {
 
   const applyFilters = (searchTerm, category) => {
       let result = foods;
-      
+      // Search Filter
       if (searchTerm) {
           result = result.filter(food => food.item_name.toLowerCase().includes(searchTerm.toLowerCase()));
-      }
+    }
+    // Category Filter
       if (category !== 'All') {
-          result = result.filter(food => food.category === category);
-      }
+          result = result.filter(food => food.category_name === category);
+    }
+    // Price Filter
       result = result.filter(food => food.item_price >=minPrice &&  food.item_price <= maxPrice);
       setFilteredFoods(result);
       setCurrentPage(1);
@@ -107,7 +109,7 @@ const FoodList = () => {
             <Slider
               range
               min={0}
-              max={500}
+              max={1500}
               defaultValue={[minPrice, maxPrice]}
               onChange={(value) => {
                 setMinPrice(value[0]);
@@ -151,6 +153,39 @@ const FoodList = () => {
             ))
           )}
         </div>
+        {totalPages > 1 && (
+          <nav className="mt-4 d-flex justify-content-center">
+            <ul className="pagination">
+              <li className="page-item">
+                <button
+                  className={`page-link ${ currentPage === 1 && 'disabled' }`}
+                  onClick={() => paginate(1)}
+                >First</button>
+              </li>
+              <li className="page-item">
+                <button
+                  className={`page-link ${ currentPage === 1 && 'disabled' }`}
+                  onClick={() => paginate(currentPage - 1)}
+                >Prev</button>
+              </li>
+              <li className="page-item">
+                <button className='page-link disabled'>Page {currentPage} of {totalPages}</button>
+              </li>
+              <li className="page-item">
+                <button
+                  className={`page-link ${ currentPage === totalPages && 'disabled' }`}
+                  onClick={() => paginate(currentPage + 1)}
+                >Next</button>
+              </li>
+              <li className="page-item">
+                <button
+                  className={`page-link ${ currentPage === totalPages && 'disabled' }`}
+                  onClick={() => paginate(totalPages)}
+                >Last</button>
+              </li>
+            </ul>
+          </nav>
+        )}
       </div>
     </PublicLayout>
   );
