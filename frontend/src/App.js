@@ -31,6 +31,7 @@ import EditCategory from './pages/EditCategory'
 import EditFood from './pages/EditFood'
 import ManageUser from './pages/ManageUser'
 import { CartProvider } from './context/CartContext'
+import FoodList from './pages/FoodList'
 
 const App = () => {
   return (
@@ -71,6 +72,7 @@ const App = () => {
         <Route path='/order-details/:order_number' element={<OrderDetails/>} />
         <Route path='/profile' element={<ProfilePage/>} />
         <Route path='/change-password' element={<ChangePassword/>} />
+        <Route path='/food-menu' element={<FoodList/>} />
       </Routes>
       </BrowserRouter>
       </CartProvider>

@@ -55,7 +55,7 @@ const PublicLayout = ({ children }) => {
                 </Link>
               </li>
               <li className="nav-item mx-1">
-                <Link className="nav-link">
+                <Link to='/food-menu' className="nav-link">
                   <FaUtensilSpoon className="me-1" /> Menu
                 </Link>
               </li>
