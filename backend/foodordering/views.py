@@ -656,3 +656,35 @@ def weekly_user_registration(request):
     ]
     
     return Response(result)
+
+# Wishlist Add
+@api_view(['POST']) 
+def add_to_wishlist(request):
+    user_id = request.data.get('user_id')
+    food_id = request.data.get('food_id')
+
+    obj,created = Wishlist.objects.get_or_create(user_id=user_id,food_id=food_id)
+    if created:
+        return Response({"message":"Added to Wishlist"},status=201)
+    else:
+        return Response({"message":"Already in Wishlist"},status=200)
+    
+# Wishlist Remove
+@api_view(['POST']) 
+def remove_to_wishlist(request):
+    user_id = request.data.get('user_id')
+    food_id = request.data.get('food_id')
+
+    
+    try:
+        Wishlist.objects.get(user_id=user_id,food_id=food_id).delete()
+        return Response({"message":"Remove from Wishlist"},status=200)
+    except Wishlist.DoesNotExist:
+        return Response({"message":"Item Not found in wishlist"},status=404)
+    
+# Wishlist 
+@api_view(['GET']) 
+def get_wishlist(request,user_id):
+    wishllist_item = Wishlist.objects.filter(user_id=user_id)
+    serializer = WishlistSerializer(wishllist_item,many=True)
+    return Response(serializer.data)
