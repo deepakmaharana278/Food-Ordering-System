@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 import PublicLayout from "../components/PublicLayout";
 import "../styles/home.css";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   const [foods, setFoods] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+
+  const userId = localStorage.getItem('userId')
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/random_foods`)
@@ -14,8 +19,53 @@ const Home = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (userId) {
+      fetch(`http://127.0.0.1:8000/api/wishlist/${userId}/`)
+      .then((res) => res.json())
+      .then((data) => {
+        const wishlistId = data.map(item => item.food_id);
+        setWishlist(wishlistId)
+      });
+    }
+  },[userId])
+
+  const toggleWishlist = async (foodId) => {
+    if (!userId) {
+      toast.info("Please login to use wishlist")
+      return;
+    }
+
+    const isWishlisted = wishlist.includes(foodId)
+
+    const endpoint = isWishlisted ? 'remove' : 'add';
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/wishlist/${ endpoint }/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          food_id: foodId
+        }),
+      });
+      if (response.ok) {
+        setWishlist(prev =>
+          isWishlisted ? prev.filter(id => id !== foodId) : [...prev, foodId]
+        );
+        toast.success(isWishlisted ? "Removed from wishlist" : "Add to wishlist");
+      } else {
+        toast.error("Failed to update wishlist");
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error("Error while connecting")
+    }
+  }
+
   return (
     <PublicLayout>
+      <ToastContainer position="top-center" autoClose={2000} />
       <section className="hero py-5 text-center" style={{ backgroundImage: "url('images/hero.jpg')" }}>
         <div
           style={{
@@ -76,7 +126,11 @@ const Home = () => {
                           border: '1px solid #000',
                         }}
                       >
-                        <i className="fas fa-heart heart-anim text-danger" style={{ fontSize: "18px" }}></i>
+                        <i
+                          className={`${wishlist.includes(food.id) ? "fas" : "far"} fa-heart heart-anim text-danger`}
+                          style={{ fontSize: "18px" }}
+                          onClick={()=>toggleWishlist(food.id)}
+                        ></i>
                       </div>
                     </div>
                     <div className="card-body">
