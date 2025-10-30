@@ -101,8 +101,9 @@ class WishlistSerializer(serializers.ModelSerializer):
     item_name = serializers.CharField(source='food.item_name')
     item_price = serializers.CharField(source='food.item_price')
     item_description = serializers.CharField(source='food.item_description')
+    is_available = serializers.CharField(source='food.is_available')
     image = serializers.ImageField(source='food.image')
 
     class Meta:
         model = Wishlist
-        fields = ['food_id','item_name','item_price','item_description','image']
+        fields = ['food_id','item_name','item_price','item_description','is_available','image']

@@ -33,6 +33,7 @@ import ManageUser from './pages/ManageUser'
 import { CartProvider } from './context/CartContext'
 import FoodList from './pages/FoodList'
 import { WishlistProvider } from './context/WishlistContext'
+import Wishlist from './pages/Wishlist'
 
 const App = () => {
   return (
@@ -75,6 +76,7 @@ const App = () => {
         <Route path='/profile' element={<ProfilePage/>} />
         <Route path='/change-password' element={<ChangePassword/>} />
         <Route path='/food-menu' element={<FoodList/>} />
+        <Route path='/wishlist' element={<Wishlist/>} />
       </Routes>
       </BrowserRouter>
       </CartProvider>

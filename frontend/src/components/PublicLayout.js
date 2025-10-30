@@ -107,7 +107,7 @@ const PublicLayout = ({ children }) => {
                         <span className="ms-1">({cartCount})</span>
                     )}
                   </Link>
-                  <Link to="" className="nav-link">
+                  <Link to="/wishlist" className="nav-link">
                     <FaHeart className="me-1" />
                       Wishlist
                       {wishlistCount > 0 && (
