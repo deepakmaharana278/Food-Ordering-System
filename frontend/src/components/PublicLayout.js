@@ -3,11 +3,13 @@ import { FaCogs, FaHeart, FaHome,  FaShoppingCart, FaSignInAlt, FaSignOutAlt, Fa
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/layout.css";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 
 const PublicLayout = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
-  const {cartCount, setCartCount} = useCart();
+  const { cartCount, setCartCount } = useCart();
+  const { wishlistCount, setWishlistCount } = useWishlist();
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
   const name = localStorage.getItem("userName");
@@ -20,12 +22,20 @@ const PublicLayout = ({ children }) => {
     }
   }
 
+  const fetchWishlistCount = async () => {
+    if (userId) {
+      const res = await fetch(`http://127.0.0.1:8000/api/wishlist/${ userId }`);
+      const data = await res.json();
+      setWishlistCount(data.length);
+    }
+  }
+
   useEffect(() => {
     if (userId) {
       setIsLoggedIn(true);
       setUserName(name);
       fetchCartCount()
-      setCartCount(0);
+      fetchWishlistCount()
     }
   }, [userId]);
 
@@ -34,6 +44,8 @@ const PublicLayout = ({ children }) => {
     localStorage.removeItem("userId");
     localStorage.removeItem("userName");
     setIsLoggedIn(false);
+    setCartCount(0);
+    setWishlistCount(0);
     navigate("/login");
   };
 
@@ -97,7 +109,10 @@ const PublicLayout = ({ children }) => {
                   </Link>
                   <Link to="" className="nav-link">
                     <FaHeart className="me-1" />
-                    Wishlist
+                      Wishlist
+                      {wishlistCount > 0 && (
+                        <span className="ms-1">({wishlistCount})</span>
+                    )}
                   </Link>
 
                   <li className="nav-item dropdown">

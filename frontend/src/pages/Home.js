@@ -4,10 +4,13 @@ import "../styles/home.css";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useWishlist } from "../context/WishlistContext";
 
 const Home = () => {
   const [foods, setFoods] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const { setWishlistCount } = useWishlist();
+  
 
   const userId = localStorage.getItem('userId')
 
@@ -53,6 +56,11 @@ const Home = () => {
         setWishlist(prev =>
           isWishlisted ? prev.filter(id => id !== foodId) : [...prev, foodId]
         );
+
+        const updatedCount = await fetch(`http://127.0.0.1:8000/api/wishlist/${ userId }`);
+        const WishlistData = await updatedCount.json();
+        setWishlistCount(WishlistData.length);
+
         toast.success(isWishlisted ? "Removed from wishlist" : "Add to wishlist");
       } else {
         toast.error("Failed to update wishlist");

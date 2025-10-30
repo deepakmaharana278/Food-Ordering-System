@@ -32,9 +32,11 @@ import EditFood from './pages/EditFood'
 import ManageUser from './pages/ManageUser'
 import { CartProvider } from './context/CartContext'
 import FoodList from './pages/FoodList'
+import { WishlistProvider } from './context/WishlistContext'
 
 const App = () => {
   return (
+    <WishlistProvider>
     <CartProvider>
     <BrowserRouter>
       <Routes>
@@ -76,6 +78,7 @@ const App = () => {
       </Routes>
       </BrowserRouter>
       </CartProvider>
+      </WishlistProvider>
   )
 }
 
