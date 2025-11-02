@@ -59,6 +59,26 @@ const TrackOrder = () => {
             <i className="fas fa-truck me-2"></i>
             Track
         </button>
+        
+        {trackingData.length > 0 && (
+            <div className="card p-4 shadow-sm rounded-4 border-0">
+                <h5 className="mb-4 text-primary">
+                    <i className="fas fa-stream me-2"></i>
+                    Order Status Timeline
+                </h5>
+                <div className="d-flex">
+                    {trackingData.map((entry,index) =>(
+                        <div key={index}>
+                        <div className="icon bg-primary">
+                            <i className="fas fa-check"></i>
+                            </div>
+                            <small className="fw-bold">{entry.status}</small>
+                            <small className="fw-muted">{new Date(entry.status_date).toLocaleDateString()}</small>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )}
       </div>
     </PublicLayout>
   );
