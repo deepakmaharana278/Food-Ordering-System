@@ -34,6 +34,7 @@ import { CartProvider } from './context/CartContext'
 import FoodList from './pages/FoodList'
 import { WishlistProvider } from './context/WishlistContext'
 import Wishlist from './pages/Wishlist'
+import TrackOrder from './pages/TrackOrder'
 
 const App = () => {
   return (
@@ -77,6 +78,8 @@ const App = () => {
         <Route path='/change-password' element={<ChangePassword/>} />
         <Route path='/food-menu' element={<FoodList/>} />
         <Route path='/wishlist' element={<Wishlist/>} />
+        <Route path='/track' element={<TrackOrder/>} />
+        <Route path='/track-order/:paramOrderNumber' element={<TrackOrder/>} />
       </Routes>
       </BrowserRouter>
       </CartProvider>

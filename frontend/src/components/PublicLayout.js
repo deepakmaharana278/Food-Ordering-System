@@ -72,7 +72,7 @@ const PublicLayout = ({ children }) => {
                 </Link>
               </li>
               <li className="nav-item mx-1">
-                <Link className="nav-link">
+                <Link to='/track' className="nav-link">
                   <FaTruck className="me-1" /> Track
                 </Link>
               </li>

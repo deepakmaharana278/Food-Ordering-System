@@ -49,7 +49,7 @@ const MyOrder = () => {
                 </span>
               </div>
               <div className="mt-3 mt-md-0">
-                  <Link className="btn btn-outline-secondary btn-sm me-2">
+                <Link to={`/track-order/${order.order_number}`} className="btn btn-outline-secondary btn-sm me-2">
                     <FaMapMarkedAlt /> Track
                   </Link>
 
