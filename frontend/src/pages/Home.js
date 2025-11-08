@@ -191,7 +191,7 @@ const Home = () => {
       </section>
       <section className="py-5 bg-warning text-center text-dark">
         <h4>Ready to Satisfy Your Hunger?</h4>
-        <Link to="" className="btn btn-dark btn-lg">
+        <Link to="/food-menu" className="btn btn-dark btn-lg">
           Browse full Menu
         </Link>
       </section>

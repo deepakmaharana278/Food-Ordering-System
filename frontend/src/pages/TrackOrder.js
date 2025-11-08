@@ -34,6 +34,17 @@ const TrackOrder = () => {
     }
   };
 
+  const getBadge = (status) => {
+    switch (status.toLowerCase()) {
+      case 'order confirmed': return 'bg-info';
+      case 'food being prepared': return 'bg-warning';
+      case 'food pickup': return 'bg-primary';
+      case 'food delivered': return 'bg-success';
+      case 'food cancelled': return 'bg-danger';
+      default: return 'bg-dark';
+    }
+  }
+  
   return (
     <PublicLayout>
       <ToastContainer position="top-center" autoClose={2000} />
@@ -51,7 +62,7 @@ const TrackOrder = () => {
             className="form-control" 
             placeholder="Enter Order Number" 
             value={orderNumber} 
-            onChange={(e) => setOrderNumber(orderNumber)}
+            onChange={(e) => setOrderNumber(e.target.value)}
           />
           
         </div>
@@ -62,21 +73,36 @@ const TrackOrder = () => {
         
         {trackingData.length > 0 && (
             <div className="card p-4 shadow-sm rounded-4 border-0">
-                <h5 className="mb-4 text-primary">
-                    <i className="fas fa-stream me-2"></i>
-                    Order Status Timeline
-                </h5>
-                <div className="d-flex">
+              <h5 className="mb-4 text-primary">
+                <i className="fas fa-stream me-2"></i>
+                Order Status Timeline
+              </h5>
+            <div className="d-flex justify-content-between align-items-center mb-5 px-2 position-relative">
+              <div className="timeline-line"></div>
                     {trackingData.map((entry,index) =>(
-                        <div key={index}>
-                        <div className="icon bg-primary">
+                        <div key={index} className="text-center flex-fill timeline-step">
+                          <div className={`icon text-white mx-auto mb-2 ${getBadge(entry.status)}`}>
                             <i className="fas fa-check"></i>
-                            </div>
-                            <small className="fw-bold">{entry.status}</small>
+                          </div>
+                            <small className="d-block fw-bold">{entry.status}</small>
                             <small className="fw-muted">{new Date(entry.status_date).toLocaleDateString()}</small>
                         </div>
                     ))}
-                </div>
+            </div>
+            <h6 className="mb-2">Detailed History</h6>
+            <ul className="list-group">
+              {trackingData.map((entry,index) =>(
+                <li key={index} className="list-group-item">
+                  <span className={`badge me-2 ${ getBadge(entry.status) }`}>{entry.status}</span>
+                  {entry.remark}
+                  <br />
+                  <small className="fw-muted">{new Date(entry.status_date).toLocaleDateString()}</small>
+                  {entry.order_cancelled_by_user && (
+                  <span className={`badge ms-2 ${ getBadge(entry.status) }`}>Cancelled by user</span>
+                )}
+                </li>
+                ))}
+            </ul>
             </div>
         )}
       </div>
