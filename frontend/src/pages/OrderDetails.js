@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import PublicLayout from "../components/PublicLayout";
 import { useNavigate, useParams } from "react-router-dom";
+import CancelOrderModal from "../components/CancelOrderModal";
 
 const OrderDetails = () => {
     const userId = localStorage.getItem('userId')
     const [orderItems, setOrderItems] = useState([]);
     const [orderAddress, setOrderAddress] = useState(null);
     const [total, setTotal] = useState(0);
+    const [showCancelModal, setShowCancelModal] = useState(false);
     const navigate = useNavigate()
     const {order_number} = useParams()
+    
+  
+  const handleCloseModal = () => setShowCancelModal(false);
     
     useEffect(() => {
         if (!userId) {
@@ -66,17 +71,48 @@ const OrderDetails = () => {
                   <i className="fas fa-map-marker-alt me-1 text-danger"></i>
                   Delivery Details
                 </h5>
-                <p><strong>Date:</strong> {new Date(orderAddress.order_time).toLocaleString()}</p>
-                <p><strong>Address:</strong> {orderAddress.address}</p>
-                <p><strong>Status:</strong> {orderAddress.order_final_status || "Waiting for Resturant confirmation"}</p>
-                <p><strong>Status:</strong> <span className="badge bg-info text-dark ms-2">{orderAddress.payment_mode}</span></p>
-                <p><strong>Total:</strong> ₹ {total}</p>
+                <p>
+                  <strong>Date:</strong> {new Date(orderAddress.order_time).toLocaleString()}
+                </p>
+                <p>
+                  <strong>Address:</strong> {orderAddress.address}
+                </p>
+                <p>
+                  <strong>Status:</strong> {orderAddress.order_final_status || "Waiting for Resturant confirmation"}
+                </p>
+                <p>
+                  <strong>Status:</strong> <span className="badge bg-info text-dark ms-2">{orderAddress.payment_mode}</span>
+                </p>
+                <p>
+                  <strong>Total:</strong> ₹ {total}
+                </p>
                 <a href={`http://127.0.0.1:8000/api/invoice/${order_number}`} target="_blank" className="btn btn-primary w-100 my-2">
                  <i className="fas fa-file-invoice me-1"></i> Invoice
                 </a>
-                <a href="" className="btn btn-danger w-100 my-2">
-                 <i className="fas fa-times-circle me-1"></i> Cancel Order
+                {orderAddress && (
+                  <>
+                    <CancelOrderModal
+                      show={showCancelModal}
+                      handleClose={handleCloseModal} orderNumber={order_number}
+                      paymentMode={orderAddress.payment_mode}
+                    />
+
+                    {(orderAddress.order_final_status === null ||
+                      orderAddress.order_final_status === 'Order Confirmed' ||
+                      orderAddress.order_final_status === 'Food being Prepared'
+                    ) ? (
+                      <a onClick={()=> setShowCancelModal(true)} className="btn btn-danger w-100 my-2">
+                          <i className="fas fa-times-circle me-1"></i> 
+                          Cancel Order
                 </a>
+                    ): (
+                        <p className="text-danger mt-2">
+                          ❌ Order can not be cancelled (Current Status : {orderAddress.order_final_status})
+                       </p>
+                    )}
+                    
+                  </>
+                )}
               </div>
             )}
         </div>
