@@ -8,10 +8,11 @@ const CancelOrderModal = ({ show, handleClose, orderNumber, paymentMode }) => {
   const handleSubmit = async () => {
     if (!remark.trim()) {
       setError("Please provide reason for cancellation");
+      return;
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/cancel_order/${orderNumber}`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/cancel_order/${orderNumber}/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -39,7 +40,7 @@ const CancelOrderModal = ({ show, handleClose, orderNumber, paymentMode }) => {
   };
 
   return (
-    <div className={`modal fade ${show ? "show d-block" : ""}`} tabindex="-1">
+    <div className={`modal fade ${show ? "show d-block" : ""}`} tabIndex="-1">
       <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content">
           <div className="modal-header">

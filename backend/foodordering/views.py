@@ -704,3 +704,21 @@ def track_order(request,order_number):
     return Response(serializer.data)
 
 
+# Cancel Order
+@api_view(['POST']) 
+def cancel_order(request,order_number):
+    remark = request.data.get('remark')
+
+    address = OrderAddress.objects.get(order_number=order_number)
+
+    sample_order = Order.objects.filter(order_number=order_number).first()
+
+    FoodTracking.objects.create(
+        order = sample_order,
+        remark = remark,
+        status = "Food cancelled",
+        order_cancelled_by_user = True
+    )
+    address.order_final_status = "Food cancelled"
+    address.save()
+    return Response({"message":"Order Cancelled successfully"},status=200)
