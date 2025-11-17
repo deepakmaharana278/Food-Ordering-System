@@ -145,6 +145,13 @@ const FoodDetail = () => {
         ></i>
       )
     }
+    return stars;
+  }
+
+  const handleEditReview = (rev) => {
+    setRating(rev.rating);
+    setComment(rev.comment);
+    setEditId(rev.id);
   }
 
   if (!food) return <div>Loding...</div>;
@@ -181,6 +188,34 @@ const FoodDetail = () => {
                 </button>
               </div>
             )}
+          </div>
+        </div>
+
+
+        <div className="mt-5 text-primary">
+          <h5>
+            <i className="fas fa-pen me-1"></i>
+            Write a Review
+          </h5>
+          <div className="mb-3">
+            <label className="form-lable mb-2">Your Rating</label>
+            <div>{renderStars(rating, true)}</div>
+            <div className="mt-3">
+              <textarea
+                className="form-control"
+                placeholder="Write your review..."
+                rows={3}
+                value={comment}
+                onChange={(e)=>setComment(e.target.value)}
+              ></textarea>
+            </div>
+            <button
+              className="btn btn-success mt-3"
+              onClick={handleReviewSubmit}
+            >
+              <i className="fas fa-paper-plane me-2"></i>
+              Submit Review
+            </button>
           </div>
         </div>
       </div>
