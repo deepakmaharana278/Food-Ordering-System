@@ -10,6 +10,11 @@ const FoodDetail = () => {
   const userId = localStorage.getItem("userId");
   const [food, setFood] = useState(null);
   const { id } = useParams();
+  const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [hoveredRating, setHoveredRating] = useState(0);
+  const [editId, setEditId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,8 +22,14 @@ const FoodDetail = () => {
       .then((res) => res.json())
       .then((data) => {
         setFood(data);
-      });
-  }, []);
+      })
+    
+    fetch(`http://127.0.0.1:8000/api/reviews/${id}/`)
+      .then((res) => res.json())
+      .then((data) => {
+        setReviews(data);
+      })
+  }, [id]);
 
   const handleAddToCart = async () => {
     if (!userId) {
@@ -50,6 +61,91 @@ const FoodDetail = () => {
       toast.error("Error Connecting to server");
     }
   };
+
+  const handleReviewSubmit = async () => {
+    if (!userId) {
+      toast.warning('Please login first  to submit review');
+      navigate('/login');
+      return;
+    }
+
+    if (rating < 1 || rating > 5) {
+      toast.error('Please select a rating from 1 to 5');
+      return;
+    }
+
+    const payload = {
+      user_id: userId,
+      food: id,
+      rating,
+      comment
+    };
+
+    const url = editId ? `http://127.0.0.1:8000/api/review_edit${ editId }/` : `http://127.0.0.1:8000/api/reviews/add/${ id }/`;
+
+    const method = editId ? 'PUT' : 'POST';
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+
+      if (response.ok) {
+        toast.success(editId ? 'Review updated' : 'Review Submitted');
+        setComment('');
+        setRating(0);
+        setEditId(null);
+        const updatedReviews = await fetch(`http://127.0.0.1:8000/api/reviews/${ id }/`).then(res => res.json());
+        setReviews(updatedReviews)
+        
+      } else {
+        toast.error("Failed to submit review");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error Connecting to server");
+    }
+  };
+
+
+  const fetchReviews = async () => {
+    const res = await fetch(`http://127.0.0.1:8000/api/reviews/${ id }/`);
+    const data = await res.json();
+    setReviews(data);
+  };
+
+  const handleDeleteReview = async (id) => {
+    const confirmDelete = window.confirm('Are you sure to delete this review?');
+    if (!confirmDelete) return;
+    const res = await fetch(`http://127.0.0.1:8000/api/review_edit/${ id }/`, {
+      method: 'DELETE',
+    });
+    if (res.ok) {
+      toast.success('Review deleted');
+      fetchReviews() //reload
+    } else {
+      toast.error('Failed to delete')
+    }
+  };
+
+  const renderStars = (count, clickable = false) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++){
+      stars.push(
+        <i
+          key={i}
+          className={`fa-star ${ i <= (hoveredRating || count) ? 'fas text-warning' : 'far text-secondary' }`}
+          style={{ cursor: clickable ? 'pointer' : `default`, fontSize: '20px', marginRight: '4px' }}
+          onClick={clickable ? () => setRating(i) : undefined}
+          onMouseEnter={clickable ? () => setHoveredRating(i) : undefined}
+          onMouseLeave={clickable ? () => setHoveredRating(0) : undefined}
+        ></i>
+      )
+    }
+  }
 
   if (!food) return <div>Loding...</div>;
 
