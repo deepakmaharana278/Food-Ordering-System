@@ -191,6 +191,43 @@ const FoodDetail = () => {
           </div>
         </div>
 
+        <hr />
+        <div className="mt-5">
+          <h4 className="text-primary">Customer Reviews</h4>
+          {reviews.length === 0 ? (
+            <p className="text-muted fst-italic">No reviews yet. Be the first to share your thoughts!</p>
+          ): (
+              reviews.map((rev) => (
+                <div key={rev.id} className="border-bottom mb-3 pb-2">
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <strong>{rev.user_name}</strong> <span className="ms-2">{renderStars(rev.rating)}</span>
+                    </div>
+
+                    {rev.user_id === userId && (
+                      <div className="text-primary">
+                        <i
+                          className="fas fa-edit me-2"
+                          style={{ cursor: 'pointer', fontSize: '14px' }}
+                          title="Edit"
+                          onClick={()=>handleEditReview(rev)}
+                        ></i>
+                        <i
+                          className="fas fa-trash-alt" title="Delete"
+                          onClick={()=>handleDeleteReview}
+                        ></i>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="mt-2">
+                    <p className="mb-1">{rev.comment}</p>
+                    <p className="text-muted">{new Date(rev.created_at).toLocaleDateString()}</p>
+                  </div>
+              </div>
+            ))
+          )}
+        </div>
 
         <div className="mt-5 text-primary">
           <h5>

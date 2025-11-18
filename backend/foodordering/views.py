@@ -722,3 +722,31 @@ def cancel_order(request,order_number):
     address.order_final_status = "Food cancelled"
     address.save()
     return Response({"message":"Order Cancelled successfully"},status=200)
+
+# add review
+@api_view(['POST']) 
+def add_review(request,food_id):
+    user_id = request.data.get('user_id')
+    rating = request.data.get('rating')
+    comment = request.data.get('comment')
+
+    try:
+        user = User.objects.get(id = user_id)
+        food = Food.objects.get(id = food_id)
+    except (User.DoesNotExist, Food.DoesNotExist):
+        return Response({"message":"User or Food not Found"},status=404)
+    Review.objects.create(
+        user = user,
+        food = food,
+        rating = rating,
+        comment = comment
+    )
+    return Response({"message":"Review Submitted"},status=201)
+
+# get food review
+@api_view(['GET']) 
+def food_reviews(request,food_id):
+    reviews = Review.objects.filter(food_id = food_id).order_by('-created_at')
+
+    serializer = ReviewSerializer(reviews,many=True)
+    return Response(serializer.data)

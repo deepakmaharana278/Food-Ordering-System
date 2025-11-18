@@ -50,4 +50,6 @@ urlpatterns = [
     path('wishlist/<int:user_id>/',get_wishlist),
     path('track_order/<str:order_number>/',track_order),
     path('cancel_order/<str:order_number>/',cancel_order),
+    path('reviews/add/<int:food_id>/',add_review),
+    path('reviews/<int:food_id>/',food_reviews),
 ]

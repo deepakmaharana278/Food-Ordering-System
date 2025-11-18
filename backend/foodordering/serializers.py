@@ -107,3 +107,15 @@ class WishlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
         fields = ['food_id','item_name','item_price','item_description','is_available','image']
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    user_name = serializers.SerializerMethodField()
+    food_name = serializers.CharField(source='food.item_name',read_only=True)
+    user_id = serializers.CharField(source='user.id',read_only=True)
+    class Meta:
+        model = Review
+        fields = ['id','user','user_id','user_name','food','food_name','rating','comment','created_at']
+
+    def get_user_name(self,obj):
+        return f'{obj.user.first_name} {obj.user.last_name}' 
