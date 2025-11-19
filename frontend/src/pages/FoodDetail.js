@@ -81,7 +81,7 @@ const FoodDetail = () => {
       comment
     };
 
-    const url = editId ? `http://127.0.0.1:8000/api/review_edit${ editId }/` : `http://127.0.0.1:8000/api/reviews/add/${ id }/`;
+    const url = editId ? `http://127.0.0.1:8000/api/review_edit/${ editId }/` : `http://127.0.0.1:8000/api/reviews/add/${ id }/`;
 
     const method = editId ? 'PUT' : 'POST';
 
@@ -120,7 +120,7 @@ const FoodDetail = () => {
   const handleDeleteReview = async (id) => {
     const confirmDelete = window.confirm('Are you sure to delete this review?');
     if (!confirmDelete) return;
-    const res = await fetch(`http://127.0.0.1:8000/api/review_edit/${ id }/`, {
+    const res = await fetch(`http://127.0.0.1:8000/api/review_delete/${ id }/`, {
       method: 'DELETE',
     });
     if (res.ok) {
@@ -204,17 +204,19 @@ const FoodDetail = () => {
                       <strong>{rev.user_name}</strong> <span className="ms-2">{renderStars(rev.rating)}</span>
                     </div>
 
-                    {rev.user_id === userId && (
-                      <div className="text-primary">
+                    {rev.user === parseInt(userId) && (
+                      <div>
                         <i
-                          className="fas fa-edit me-2"
+                          className="fas text-primary fa-edit me-2"
                           style={{ cursor: 'pointer', fontSize: '14px' }}
                           title="Edit"
                           onClick={()=>handleEditReview(rev)}
                         ></i>
                         <i
-                          className="fas fa-trash-alt" title="Delete"
-                          onClick={()=>handleDeleteReview}
+                          className="fas text-danger fa-trash-alt"
+                          style={{ cursor: 'pointer', fontSize: '14px' }}
+                          title="Delete"
+                          onClick={()=>handleDeleteReview(rev.id)}
                         ></i>
                       </div>
                     )}

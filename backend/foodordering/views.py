@@ -750,3 +750,26 @@ def food_reviews(request,food_id):
 
     serializer = ReviewSerializer(reviews,many=True)
     return Response(serializer.data)
+
+# edit review
+@api_view(['DELETE','PUT']) 
+def review_detail(request,id):
+    try:
+        review = Review.objects.get(id = id)
+    except Review.DoesNotExist:
+        return Response({"message":"Review not Found"},status=404)
+    
+    if request.method == 'DELETE':
+        review.delete()
+        return Response({"message":"Review Deleted Successful"},status=200)
+    
+    if request.method == 'PUT':
+        data = {
+            "rating":request.data.get("rating",review.rating),
+            "comment":request.data.get("comment",review.comment),
+            }
+        serializer=ReviewSerializer(review,data=data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message":"Review Updated Successful"},status=200)
+        return Response(serializer.errors,status=400)

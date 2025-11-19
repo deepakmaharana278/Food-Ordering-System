@@ -52,4 +52,6 @@ urlpatterns = [
     path('cancel_order/<str:order_number>/',cancel_order),
     path('reviews/add/<int:food_id>/',add_review),
     path('reviews/<int:food_id>/',food_reviews),
+    path('review_edit/<int:id>/',review_detail),
+    path('review_delete/<int:id>/',review_detail),
 ]
