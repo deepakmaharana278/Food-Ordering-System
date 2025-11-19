@@ -19,6 +19,15 @@ const MyOrder = () => {
           });
       }, [userId]);
 
+  const getStatusBadge = (status) => {
+    const statusLower = status.toLowerCase();
+    if (statusLower.includes("delivered")) return 'success';
+    if (statusLower.includes("cancelled")) return 'danger';
+    if (statusLower.includes("confirmed")) return 'info';
+    if (statusLower.includes("prepared")) return 'warning';
+    if (statusLower.includes("pickup")) return 'primary';
+    return 'secondary';
+  }
 
 
   return (
@@ -44,7 +53,7 @@ const MyOrder = () => {
                 <p className="text-muted mb-1">
                     <strong>Date: </strong>{new Date(order.order_time).toLocaleString()}
                 </p>
-                <span className="badge bg-secondary">
+                <span className={`badge bg-${getStatusBadge(order.order_final_status)}`}>
                   {order.order_final_status}
                 </span>
               </div>
