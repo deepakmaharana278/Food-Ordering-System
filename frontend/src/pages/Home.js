@@ -173,7 +173,7 @@ const Home = () => {
 
                       {rating[food.id] && (
                         <div
-                          className="mb-2" 
+                          className="mb-2 rating-summary-wrapper position-relative" 
                           onMouseEnter={()=>setHovered(food.id)}
                           onMouseLeave={() => setHovered(null)}
                         > 
@@ -188,10 +188,41 @@ const Home = () => {
                               ))}
                             </span>
                             <small className="text-muted ms-2">
-                              {rating[food.id].average}
-                              ({rating[food.id].total_reviews} rating)
+                              {rating[food.id].average} ({rating[food.id].total_reviews} rating)
                             </small>
                           </div>
+
+                          {hovered === food.id && rating[food.id].breakdown && (
+                            <div
+                              className="hover-popup p-3 border rounded shadow position-absolute bg-white"
+                              style={{bottom:"100%",width:"100%",marginBottom:"10px"}}
+                            >
+                              {[5, 4, 3, 2, 1].map((star) => {
+                                const count = rating[food.id].breakdown[star] || 0;
+
+                                const percentage = rating[food.id].total_reviews ? (count / rating[food.id].total_reviews) * 100 : 0;
+
+
+                                return (
+                                  <div
+                                    key={star}
+                                    className="mb-1 d-flex align-items-center"
+                                  >
+                                    <small className="me-2" style={{width:50}}>{star} star</small>
+                                    <div className="progress flex-grow-1">
+                                      <div
+                                        className="progress-bar bg-warning"
+                                        style={{width:`${percentage}%`}}
+                                      ></div>
+                                    </div>
+                                      <small className="ms-2">{count}</small>
+                                  </div>
+                                )
+
+                              })}
+                            </div>
+                          )}
+
                         </div>
                       )}
 

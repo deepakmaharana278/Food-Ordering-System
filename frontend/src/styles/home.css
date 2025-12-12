@@ -37,3 +37,12 @@ input::placeholder{
 .heart-anim:hover{
   transform: scale(1.2);
 }
+
+.rating-summary-wrapper{
+  z-index: 2;
+}
+
+.hover-popup{
+  z-index: 999;
+  animation: fadeIn 0.2s ease-in-out;
+}
