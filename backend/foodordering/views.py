@@ -773,3 +773,18 @@ def review_detail(request,id):
             serializer.save()
             return Response({"message":"Review Updated Successful"},status=200)
         return Response(serializer.errors,status=400)
+    
+
+# show rating in home page
+from django.db.models import Count,Avg
+@api_view(['GET']) 
+def food_rating_summary(request,food_id):
+    reviews = Review.objects.filter(food_id = food_id)
+    rating_summary = reviews.values('rating').annotate(count=Count('rating')).order_by('-rating')
+    average = reviews.aggregate(average=Avg('rating'))['average'] or 0
+    total_reviews = reviews.count()
+    return Response({
+        'average' : round(average),
+        'total_reviews' : total_reviews,
+        'breakdown': {entry['rating'] : entry['count']  for entry in rating_summary}
+    })

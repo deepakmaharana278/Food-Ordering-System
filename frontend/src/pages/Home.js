@@ -10,6 +10,9 @@ const Home = () => {
   const [foods, setFoods] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const { setWishlistCount } = useWishlist();
+  const [rating, setRating] = useState({});
+  const [hovered, setHovered] = useState(null);
+
   
 
   const userId = localStorage.getItem('userId')
@@ -22,6 +25,7 @@ const Home = () => {
       });
   }, []);
 
+
   useEffect(() => {
     if (userId) {
       fetch(`http://127.0.0.1:8000/api/wishlist/${userId}/`)
@@ -31,7 +35,25 @@ const Home = () => {
         setWishlist(wishlistId)
       });
     }
-  },[userId])
+  }, [userId])
+  
+   useEffect(() => {
+     const fetchAllRatings = async () => {
+       const allRating = {};
+       for (let food of foods) {
+         const res =await fetch(`http://127.0.0.1:8000/api/food_rating_summary/${ food.id }/`);
+
+         const data = await res.json()
+         allRating[food.id] = data
+
+       }
+       setRating(allRating);
+     }
+     
+     if (foods.length > 0) {
+       fetchAllRatings();
+     }
+  }, [foods]);
 
   const toggleWishlist = async (foodId) => {
     if (!userId) {
@@ -146,6 +168,35 @@ const Home = () => {
                         <Link to={`/food/${food.id}`}>{food.item_name}</Link>
                       </h5>
                       <p className="card-text text-muted">{food.item_description?.slice(0, 40)}...</p>
+
+
+
+                      {rating[food.id] && (
+                        <div
+                          className="mb-2" 
+                          onMouseEnter={()=>setHovered(food.id)}
+                          onMouseLeave={() => setHovered(null)}
+                        > 
+                          <div>
+                            <span className="text-warning">
+                              {Array(Math.round(rating[food.id].average)).fill().map((_, i) => (
+                                <i key={i} className="fas fa-star"></i>
+                              ))}
+
+                              {Array(5 - Math.round(rating[food.id].average)).fill().map((_, i) => (
+                                <i key={i} className="far fa-star"></i>
+                              ))}
+                            </span>
+                            <small className="text-muted ms-2">
+                              {rating[food.id].average}
+                              ({rating[food.id].total_reviews} rating)
+                            </small>
+                          </div>
+                        </div>
+                      )}
+
+
+
                       <div className="d-flex justify-content-between align-item-center">
                         <span className="fw-bold">₹ {food.item_price}</span>
                         {food.is_available ? (
