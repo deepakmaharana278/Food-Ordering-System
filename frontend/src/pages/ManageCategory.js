@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 const ManageCategory = () => {
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const categoriesPerpage = 5;
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/manage-category/")
@@ -41,8 +43,17 @@ const ManageCategory = () => {
             })
           .catch(err=>console.error(err)
           )
-        } 
-    }
+      } 
+  }
+  // Pagination
+  const indexOfLastCategory = currentPage * categoriesPerpage; 
+  const indexOfFirstCategory = indexOfLastCategory - categoriesPerpage; 
+  const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory)
+  const totalPages = Math.ceil(categories.length / categoriesPerpage);
+
+  const handlePageChange = (page) => setCurrentPage(page)
+
+
     
   return (
     <AdminLayout>
@@ -76,7 +87,7 @@ const ManageCategory = () => {
             </tr>
           </thead>
           <tbody>
-            {categories.map((cat, index) => (
+            {currentCategories.map((cat, index) => (
               <tr key={cat.id}>
                 <td>{index+1}</td>
                 <td>{cat.category_name}</td>
@@ -94,6 +105,22 @@ const ManageCategory = () => {
             ))}
           </tbody>
         </table>
+
+        <div className="mt-3 d-flex justify-content-center">
+          <nav>
+            <ul className="pagination">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <li key={page} className={`page-item ${page === currentPage ? 'active' : '' }`}>
+                  <button
+                    onClick={() => handlePageChange(page)} className="page-link"
+                  >
+                    {page}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
     </AdminLayout>
   );
