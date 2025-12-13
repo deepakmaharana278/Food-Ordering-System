@@ -70,7 +70,11 @@ const ManageReview = () => {
                 <td>{index + 1}</td>
                 <td>{r.food_name}</td>
                 <td>{r.user_name}</td>
-                <td>{r.rating}</td>
+                <td>
+                {[...Array(5)].map((_, i) => (
+                 <i key={i} className={`fa-star ${i < r.rating ? 'fas' : 'far'}`}></i>
+                ))}
+                </td>
                 <td>{r.comment}</td>
                 <td>{new Date(r.created_at).toLocaleDateString()}</td>
                 <td>
