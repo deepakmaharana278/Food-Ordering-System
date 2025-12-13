@@ -55,4 +55,6 @@ urlpatterns = [
     path('review_edit/<int:id>/',review_detail),
     path('review_delete/<int:id>/',review_detail),
     path('food_rating_summary/<int:food_id>/',food_rating_summary),
+    path('all_reviews/',all_reviews),
+    path('delete_review/<int:id>/',delete_review),
 ]

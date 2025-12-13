@@ -35,6 +35,7 @@ import FoodList from './pages/FoodList'
 import { WishlistProvider } from './context/WishlistContext'
 import Wishlist from './pages/Wishlist'
 import TrackOrder from './pages/TrackOrder'
+import ManageReview from './pages/ManageReview'
 
 const App = () => {
   return (
@@ -64,6 +65,7 @@ const App = () => {
         <Route path='/manage_category/edit-category/:id' element={<EditCategory/>} />
         <Route path='/manage_food/edit-food/:id' element={<EditFood/>} />
         <Route path='/manage_user' element={<ManageUser/>} />
+        <Route path='/manage_reviews' element={<ManageReview/>} />
         
         {/* User page */}
         <Route path='/search' element={<SearchPage/>} />

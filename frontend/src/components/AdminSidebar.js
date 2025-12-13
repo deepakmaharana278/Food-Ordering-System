@@ -115,7 +115,7 @@ const AdminSidebar = () => {
       </div>
       
       <div className="list-group list-group-flush"> 
-        <Link className="list-group-item list-group-item-action bg-dark text-white">
+        <Link to='/manage_reviews' className="list-group-item list-group-item-action bg-dark text-white">
           <FaStreetView/> Manage Reviews
         </Link>
       </div>

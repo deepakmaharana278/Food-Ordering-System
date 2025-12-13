@@ -28,3 +28,10 @@
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
+.active-nav-link{
+    background-color: #ffc107 !important;
+    border-radius: 0.25rem;
+    color: #000;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
