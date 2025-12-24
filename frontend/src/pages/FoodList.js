@@ -13,6 +13,7 @@ const FoodList = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(500);
+  const [sortBy, setSortBy] = useState("relevance");
   const [currentPage, setCurrentPage] = useState(1);
   const foodPerpage = 6;
 
@@ -36,14 +37,47 @@ const FoodList = () => {
     applyFilters(search, selectedCategory);
   };
 
+  const sortFoods = (list,sortValue) => {
+    const sorted = [...list];
+    switch (sortValue) {
+      case "priceLowHigh":
+        sorted.sort(
+          (a, b) => a.item_price - b.item_price
+        );
+        break;
+      case "priceHighLow":
+        sorted.sort(
+          (a, b) => b.item_price - a.item_price
+        );
+        break;
+      case "nameAZ":
+        sorted.sort(
+          (a, b) => a.item_name.localeCompare(b.item_name
+          ));
+        break;
+      default:
+        // relevance = keep backend order
+        break;
+    }
+
+    return sorted;
+
+  };
+
   const handleCategoryChange = (e) => {
     const category = e.target.value;
     setSelectedCategory(category)
     applyFilters(search, category);
   };
 
-  const applyFilters = (searchTerm, category) => {
-      let result = foods;
+  const applyFilters = (searchTerm, category, priceMin, priceMax, sortOverride) => {
+    let result = foods;
+    
+    // sorting filter
+    const min = typeof priceMin === "number" ? priceMin : minPrice;
+    const max = typeof priceMax === "number" ? priceMax : maxPrice;
+    const sortValue = sortOverride || sortBy;
+
       // Search Filter
       if (searchTerm) {
           result = result.filter(food => food.item_name.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -53,9 +87,13 @@ const FoodList = () => {
           result = result.filter(food => food.category_name === category);
     }
     // Price Filter
-      result = result.filter(food => food.item_price >=minPrice &&  food.item_price <= maxPrice);
-      setFilteredFoods(result);
-      setCurrentPage(1);
+    result = result.filter(
+      food => food.item_price >= minPrice && food.item_price <= maxPrice
+    );
+    
+    result = sortFoods(result,sortValue)
+    setFilteredFoods(result);
+    setCurrentPage(1);
     };
     
   // Pagination
@@ -65,6 +103,18 @@ const FoodList = () => {
   const totalPages = Math.ceil(filteredFoods.length / foodPerpage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
+
+  const handleMinPriceInput = (e) => {
+    const value = e.target.value;
+    setMaxPrice(value);
+    applyFilters(search, selectedCategory,value,minPrice)
+  }
+
+  const handleSortChange = (e) => {
+    const value = e.target.value;
+    setSortBy(value)
+    applyFilters(search, selectedCategory,value,minPrice,maxPrice)
+  }
   
   return (
     <PublicLayout>
@@ -94,7 +144,9 @@ const FoodList = () => {
             <select
               value={selectedCategory}
               onChange={handleCategoryChange} className="form-select">
-              <option value="All">All Category</option>
+              <option value="All">
+                All Category
+              </option>
               
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.category_name}>{cat.category_name}</option>
